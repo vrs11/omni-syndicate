@@ -1,9 +1,9 @@
 _core:
   default_config_hash: VDJxTZtQR21qB4lvOq8zszJZLvLKrSPQpdn2E3T71Ww
 langcode: en
-uuid: 6afb99e1-63d4-4cbf-84d3-81572cd475ed
-name: 'Drupal flow tutorial'
-mail: drupal_flow@it101explained.com
+uuid: dfa2c98d-748e-4f8a-856b-569623fcf6ea
+name: 'Omni syndicate'
+mail: hello@omni-syndicate.com
 slogan: ''
 page:
   403: ''
