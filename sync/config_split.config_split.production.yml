@@ -1,0 +1,16 @@
+uuid: e567c220-768d-4d78-8ffd-1293b1b0b4dc
+langcode: en
+status: false
+dependencies: {  }
+id: production
+label: Production
+description: ''
+weight: 0
+stackable: false
+no_patching: false
+storage: folder
+folder: ../sync-split/prod
+module: {  }
+theme: {  }
+complete_list: {  }
+partial_list: {  }

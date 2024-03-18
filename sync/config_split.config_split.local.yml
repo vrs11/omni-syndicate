@@ -1,0 +1,18 @@
+uuid: f5a81e41-c32c-4d80-b828-b2f5922c4579
+langcode: en
+status: false
+dependencies: {  }
+id: local
+label: Local
+description: ''
+weight: 0
+stackable: false
+no_patching: false
+storage: folder
+folder: ../sync-split/local
+module:
+  devel: 0
+  twig_xdebug: 0
+theme: {  }
+complete_list: {  }
+partial_list: {  }
