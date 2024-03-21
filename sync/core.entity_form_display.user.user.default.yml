@@ -3,10 +3,21 @@ langcode: en
 status: true
 dependencies:
   config:
-    - field.field.user.user.user_picture
+    - field.field.user.user.field_avatar
+    - field.field.user.user.field_biography
+    - field.field.user.user.field_firstname
+    - field.field.user.user.field_home_city
+    - field.field.user.user.field_home_region
+    - field.field.user.user.field_lastname
+    - field.field.user.user.field_nickname
+    - field.field.user.user.field_phone
     - image.style.thumbnail
   module:
+    - address
     - image
+    - mobile_number
+    - path
+    - text
     - user
 _core:
   default_config_hash: FaQ9Ptcpxpg30AtiqRDtl_8zbJArHP1LPfug_s59TOA
@@ -16,23 +27,89 @@ bundle: user
 mode: default
 content:
   account:
-    weight: -10
-    region: content
-  contact:
-    weight: 5
-    region: content
-  language:
     weight: 0
     region: content
-  timezone:
-    weight: 6
-    region: content
-  user_picture:
+    settings: {  }
+    third_party_settings: {  }
+  field_avatar:
     type: image_image
-    weight: -1
+    weight: 5
     region: content
     settings:
       progress_indicator: throbber
       preview_image_style: thumbnail
     third_party_settings: {  }
-hidden: {  }
+  field_biography:
+    type: text_textarea_with_summary
+    weight: 4
+    region: content
+    settings:
+      rows: 9
+      summary_rows: 3
+      placeholder: ''
+      show_summary: false
+    third_party_settings: {  }
+  field_firstname:
+    type: string_textfield
+    weight: 1
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_home_city:
+    type: address_default
+    weight: 7
+    region: content
+    settings:
+      wrapper_type: fieldset
+    third_party_settings: {  }
+  field_home_region:
+    type: options_select
+    weight: 6
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_lastname:
+    type: string_textfield
+    weight: 2
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_nickname:
+    type: string_textfield
+    weight: 3
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_phone:
+    type: mobile_number_default
+    weight: 8
+    region: content
+    settings:
+      countries: {  }
+      default_country: UA
+      placeholder: 'Phone number'
+    third_party_settings: {  }
+  language:
+    weight: 9
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  path:
+    type: path
+    weight: 11
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  timezone:
+    weight: 10
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+hidden:
+  contact: true

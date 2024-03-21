@@ -1,0 +1,31 @@
+uuid: 27928223-4ed4-41bb-bb8a-63bd1e194491
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.price_with_currency.field_currency
+    - field.field.paragraph.price_with_currency.field_price
+    - paragraphs.paragraphs_type.price_with_currency
+id: paragraph.price_with_currency.default
+targetEntityType: paragraph
+bundle: price_with_currency
+mode: default
+content:
+  field_currency:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  field_price:
+    type: number_integer
+    label: above
+    settings:
+      thousand_separator: ''
+      prefix_suffix: true
+    third_party_settings: {  }
+    weight: 0
+    region: content
+hidden: {  }

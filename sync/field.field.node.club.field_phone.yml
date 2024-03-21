@@ -1,0 +1,26 @@
+uuid: 02be4c75-37d7-488a-9bfb-e19828ebe6a9
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_phone
+    - node.type.club
+  module:
+    - mobile_number
+id: node.club.field_phone
+field_name: field_phone
+entity_type: node
+bundle: club
+label: Phone
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  verify: none
+  countries: {  }
+  message: |-
+    Your verification code from !site_name:
+    !code
+field_type: mobile_number

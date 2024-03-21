@@ -1,0 +1,31 @@
+# User ownership routing definition
+
+entity.user_ownership.canonical:
+  route_name: entity.user_ownership.canonical
+  base_route: entity.user_ownership.canonical
+  title: 'View'
+
+entity.node.claim:
+  route_name: dynamic_ownership.node_claim
+  base_route: entity.node.canonical
+  title: 'Claim'
+
+entity.user_ownership.edit_form:
+  route_name: entity.user_ownership.edit_form
+  base_route: entity.user_ownership.canonical
+  title: 'Edit'
+
+entity.user_ownership.delete_form:
+  route_name:  entity.user_ownership.delete_form
+  base_route:  entity.user_ownership.canonical
+  title: 'Delete'
+
+entity.user.ownerships:
+  route_name: view.ownerships_list.my_ownership
+  base_route: entity.user.canonical
+  title: 'Ownerships'
+
+entity.user.inherited_ownerships:
+  route_name: view.ownerships_list.inherited_ownership
+  base_route: entity.user.canonical
+  title: 'Inherited ownerships'

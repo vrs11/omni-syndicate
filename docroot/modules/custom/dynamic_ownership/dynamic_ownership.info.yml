@@ -1,0 +1,8 @@
+name: 'Dynamic ownership'
+type: module
+description: 'Provides functionality to become a owner dynamically'
+core: 8.x
+core_version_requirement: ^8 || ^9 || ^10
+package: 'Ownership'
+dependencies:
+  - drupal:dynamic_entity_reference

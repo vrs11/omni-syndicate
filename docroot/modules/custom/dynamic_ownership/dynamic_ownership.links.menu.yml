@@ -1,0 +1,7 @@
+# User ownership type menu items definition
+entity.user_ownership_type.collection:
+  title: 'User ownership type'
+  route_name: entity.user_ownership_type.collection
+  description: 'List User ownership type (bundles)'
+  parent: system.admin_structure
+  weight: 99

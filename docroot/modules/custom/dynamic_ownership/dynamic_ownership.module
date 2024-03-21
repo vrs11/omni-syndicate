@@ -1,0 +1,215 @@
+<?php
+
+/**
+ * @file
+ * Contains dynamic_ownership.module.
+ */
+
+use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\Core\Access\AccessResult;
+use Drupal\Core\Session\AccountInterface;
+use Drupal\node\NodeInterface;
+use Drupal\user\UserInterface;
+
+/**
+ * Implements hook_help().
+ */
+function dynamic_ownership_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    // Main module help for the dynamic_ownership module.
+    case 'help.page.dynamic_ownership':
+      $output = '';
+      $output .= '<h3>' . t('About') . '</h3>';
+      return $output;
+  }
+}
+
+/**
+ * Returns all roles for given User + dynamic ones if there are any Ownerships.
+ *
+ * @param \Drupal\Core\Session\AccountInterface|null $account
+ *   User to search Ownerships for or Current user if none given.
+ * @param string|null $ownership_type
+ *   Ownership type to search for.
+ * @param bool $only_active
+ *   If only active Ownerships should be returned.
+ *
+ * @return array
+ *   Array of roles.
+ *
+ * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
+ * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
+ */
+function dynamic_ownership_get_all_user_roles(?AccountInterface $account = NULL, string $ownership_type = NULL, bool $only_active = TRUE): array {
+  $account = $account ?? \Drupal::currentUser();
+  $roles = $account->getRoles();
+
+  $properties = [
+    'user_id' => $account->id(),
+  ];
+
+  if (!empty($ownership_type)) {
+    $properties['type'] = $ownership_type;
+  }
+
+  $only_active && ($properties['state'] = 'active');
+
+  $ownerships = \Drupal::entityTypeManager()
+    ->getStorage('user_ownership')
+    ->loadByProperties($properties);
+
+  if (empty($ownerships)) {
+    return ['roles' => $roles];
+  }
+
+  foreach ($ownerships as $ownership) {
+    if (empty($role = $ownership->get('role_id'))) {
+      continue;
+    }
+
+    $roles[] = $role->target_id;
+  }
+
+  return $roles;
+}
+
+/**
+ * Implements hook_node_access().
+ *
+ * Performs additional check for access to requested operation
+ * to search for needed permission among dynamic roles.
+ */
+function dynamic_ownership_node_access(NodeInterface $node, $op, AccountInterface $account) {
+  $access = AccessResult::neutral();
+
+  $ownerships = \Drupal::entityTypeManager()->getStorage('user_ownership')->loadByProperties([
+    'user_id' => $account->id(),
+    'entity_id__target_id' => $node->id(),
+    'entity_id__target_type' => 'node',
+    'state' => 'active',
+  ]);
+
+  if (empty($ownerships)) {
+    return $access;
+  }
+
+  $ownership = reset($ownerships);
+
+  $roles = $account->getRoles();
+  if (empty($role = $ownership->role_id->target_id)) {
+    return $access;
+  }
+  $roles[] = $role;
+  $type = $node->bundle();
+
+  switch ($op) {
+    case 'create':
+      $access = AccessResult::allowedIf(user_ownership_access_check('create ' . $type . ' content', $roles));
+      break;
+
+    case 'view':
+      $access = AccessResult::allowedIf(user_ownership_access_check('access content', $roles));
+      if (!$access->isAllowed() && user_ownership_access_check('view own unpublished content', $roles)) {
+        $access = $access->orIf(AccessResult::allowed()->cachePerUser()->addCacheableDependency($node));
+      }
+      break;
+
+    case 'update':
+      $access = AccessResult::allowedIf(user_ownership_access_check('edit any ' . $type . ' content', $roles));
+      if (!$access->isAllowed() && user_ownership_access_check('edit own ' . $type . ' content', $roles)) {
+        $access = $access->orIf(AccessResult::allowed()->cachePerUser()->addCacheableDependency($node));
+      }
+      break;
+
+    case 'delete':
+      $access = AccessResult::allowedIf(user_ownership_access_check('delete any ' . $type . ' content', $roles));
+      if (!$access->isAllowed() && user_ownership_access_check('delete own ' . $type . ' content', $roles)) {
+        $access = $access->orIf(AccessResult::allowed()->cachePerUser()->addCacheableDependency($node));
+      }
+      break;
+  }
+
+  return $access;
+}
+
+/**
+ * Implements hook_ENTITY_TYPE_delete().
+ */
+function dynamic_ownership_node_delete(NodeInterface $node) {
+  $user_ownership_storage = \Drupal::entityTypeManager()->getStorage('user_ownership');
+  $ids = $user_ownership_storage->loadByProperties([
+    'entity_id__target_id' => $node->id(),
+    'entity_id__target_type' => 'node',
+  ]);
+
+  if (empty($ids)) {
+    return;
+  }
+
+  $user_ownership_storage->delete($ids);
+}
+
+/**
+ * Implements hook_ENTITY_TYPE_delete().
+ */
+function dynamic_ownership_user_delete(UserInterface $user) {
+  $user_ownership_storage = \Drupal::entityTypeManager()->getStorage('user_ownership');
+  $ids = $user_ownership_storage->loadByProperties([
+    'user_id' => $user->id(),
+  ]);
+
+  if (empty($ids)) {
+    return;
+  }
+  \Drupal::logger('dynamic_ownership')->notice('ownership deleted');
+  $user_ownership_storage->delete($ids);
+}
+
+/**
+ * Checks if given permission is granted to at least one of given roles.
+ *
+ * @param string $permission
+ *   Permission to check for.
+ * @param array $roles
+ *   Array of roles to check among.
+ *
+ * @return bool
+ *   TRUE if permission is granted to at least one role.
+ */
+function user_ownership_access_check(string $permission, array $roles): bool {
+  return \Drupal::entityTypeManager()->getStorage('user_role')->isPermissionInRoles($permission, $roles);
+}
+
+/**
+ * Implements hook_theme().
+ */
+function dynamic_ownership_theme() {
+  $theme = [];
+  $theme['user_ownership'] = [
+    'render element' => 'elements',
+    'file' => 'user_ownership.page.inc',
+    'template' => 'user_ownership',
+  ];
+  $theme['user_ownership_content_add_list'] = [
+    'render element' => 'content',
+    'variables' => ['content' => NULL],
+    'file' => 'user_ownership.page.inc',
+  ];
+  return $theme;
+}
+
+/**
+ * Implements hook_theme_suggestions_HOOK().
+ */
+function dynamic_ownership_theme_suggestions_user_ownership(array $variables) {
+  $suggestions = [];
+  $entity = $variables['elements']['#user_ownership'];
+  $sanitized_view_mode = strtr($variables['elements']['#view_mode'], '.', '_');
+
+  $suggestions[] = 'user_ownership__' . $sanitized_view_mode;
+  $suggestions[] = 'user_ownership__' . $entity->bundle();
+  $suggestions[] = 'user_ownership__' . $entity->bundle() . '__' . $sanitized_view_mode;
+  $suggestions[] = 'user_ownership__' . $entity->id();
+  $suggestions[] = 'user_ownership__' . $entity->id() . '__' . $sanitized_view_mode;
+  return $suggestions;
+}

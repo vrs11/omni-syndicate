@@ -1,0 +1,52 @@
+uuid: 4309f010-abca-4b52-a092-6e82ecbdf3ee
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.club.body
+    - field.field.node.club.field_address
+    - field.field.node.club.field_email
+    - field.field.node.club.field_logo
+    - field.field.node.club.field_phone
+    - field.field.node.club.field_website
+    - image.style.medium
+    - node.type.club
+  module:
+    - image
+    - text
+    - user
+id: node.club.teaser
+targetEntityType: node
+bundle: club
+mode: teaser
+content:
+  body:
+    type: text_summary_or_trimmed
+    label: hidden
+    settings:
+      trim_length: 600
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  field_logo:
+    type: image
+    label: hidden
+    settings:
+      image_link: ''
+      image_style: medium
+      image_loading:
+        attribute: lazy
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 2
+    region: content
+hidden:
+  field_address: true
+  field_email: true
+  field_phone: true
+  field_website: true

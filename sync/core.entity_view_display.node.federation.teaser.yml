@@ -1,0 +1,48 @@
+uuid: a93522db-9aa8-4e47-b5f9-3e4c33ffcc6b
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.federation.body
+    - field.field.node.federation.field_logo
+    - field.field.node.federation.field_prize_fund
+    - field.field.node.federation.field_website
+    - image.style.medium
+    - node.type.federation
+  module:
+    - image
+    - text
+    - user
+id: node.federation.teaser
+targetEntityType: node
+bundle: federation
+mode: teaser
+content:
+  body:
+    type: text_summary_or_trimmed
+    label: hidden
+    settings:
+      trim_length: 600
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  field_logo:
+    type: image
+    label: hidden
+    settings:
+      image_link: ''
+      image_style: medium
+      image_loading:
+        attribute: lazy
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 2
+    region: content
+hidden:
+  field_prize_fund: true
+  field_website: true

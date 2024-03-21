@@ -1,0 +1,18 @@
+uuid: 99f0448d-d7f2-4cb7-b946-bcf2a715aaa8
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.federation
+id: node.federation.title
+field_name: title
+entity_type: node
+bundle: federation
+label: Name
+description: ''
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

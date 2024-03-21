@@ -1,0 +1,18 @@
+uuid: a3af7415-a9ac-4d27-bfd2-523c48ae6341
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.club
+id: node.club.title
+field_name: title
+entity_type: node
+bundle: club
+label: Name
+description: ''
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

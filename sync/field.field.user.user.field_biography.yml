@@ -1,0 +1,28 @@
+uuid: 493a001e-548d-4624-80f8-314670898557
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.user.field_biography
+    - filter.format.plain_text
+    - filter.format.restricted_html
+  module:
+    - text
+    - user
+id: user.user.field_biography
+field_name: field_biography
+entity_type: user
+bundle: user
+label: Biography
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  display_summary: true
+  required_summary: false
+  allowed_formats:
+    - restricted_html
+    - plain_text
+field_type: text_with_summary

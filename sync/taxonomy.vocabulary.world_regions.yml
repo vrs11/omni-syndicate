@@ -1,0 +1,8 @@
+uuid: 01d35b8b-432f-490f-a12d-7d22abf8a5ad
+langcode: en
+status: true
+dependencies: {  }
+name: 'World regions'
+vid: world_regions
+description: ''
+weight: 0

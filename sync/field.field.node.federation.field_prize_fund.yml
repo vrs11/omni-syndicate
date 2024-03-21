@@ -1,0 +1,31 @@
+uuid: e7b38c29-3cae-4cd1-bf7b-cfd59e1f538c
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_prize_fund
+    - node.type.federation
+    - paragraphs.paragraphs_type.price_with_currency
+  module:
+    - entity_reference_revisions
+id: node.federation.field_prize_fund
+field_name: field_prize_fund
+entity_type: node
+bundle: federation
+label: 'Prize fund'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph'
+  handler_settings:
+    target_bundles:
+      price_with_currency: price_with_currency
+    negate: 0
+    target_bundles_drag_drop:
+      price_with_currency:
+        weight: 2
+        enabled: true
+field_type: entity_reference_revisions

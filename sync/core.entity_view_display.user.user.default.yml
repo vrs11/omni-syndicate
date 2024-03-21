@@ -3,10 +3,19 @@ langcode: en
 status: true
 dependencies:
   config:
-    - field.field.user.user.user_picture
-    - image.style.thumbnail
+    - field.field.user.user.field_avatar
+    - field.field.user.user.field_biography
+    - field.field.user.user.field_firstname
+    - field.field.user.user.field_home_city
+    - field.field.user.user.field_home_region
+    - field.field.user.user.field_lastname
+    - field.field.user.user.field_nickname
+    - field.field.user.user.field_phone
+    - image.style.large
   module:
+    - address
     - image
+    - text
     - user
 _core:
   default_config_hash: mZLyuWM9CQx2ZJVqFGSbzgFnHzudVbHBYmdU256A5Wk
@@ -15,18 +24,63 @@ targetEntityType: user
 bundle: user
 mode: default
 content:
-  member_for:
-    weight: 5
-    region: content
-  user_picture:
+  field_avatar:
     type: image
     label: hidden
     settings:
-      image_link: content
-      image_style: thumbnail
+      image_link: ''
+      image_style: large
       image_loading:
         attribute: lazy
     third_party_settings: {  }
     weight: 0
     region: content
-hidden: {  }
+  field_biography:
+    type: text_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 4
+    region: content
+  field_firstname:
+    type: string
+    label: inline
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  field_home_city:
+    type: address_default
+    label: inline
+    settings: {  }
+    third_party_settings: {  }
+    weight: 6
+    region: content
+  field_home_region:
+    type: entity_reference_label
+    label: inline
+    settings:
+      link: false
+    third_party_settings: {  }
+    weight: 5
+    region: content
+  field_lastname:
+    type: string
+    label: inline
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 2
+    region: content
+  field_nickname:
+    type: string
+    label: inline
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 3
+    region: content
+hidden:
+  field_phone: true
+  member_for: true

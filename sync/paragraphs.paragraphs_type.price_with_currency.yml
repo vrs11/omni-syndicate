@@ -1,0 +1,10 @@
+uuid: 619669b6-d489-40c3-8f95-dfcf3371688f
+langcode: en
+status: true
+dependencies: {  }
+id: price_with_currency
+label: 'Price with currency'
+icon_uuid: null
+icon_default: null
+description: ''
+behavior_plugins: {  }

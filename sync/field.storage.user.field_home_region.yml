@@ -1,0 +1,20 @@
+uuid: fefa9698-3f1e-40ea-a2f4-d5c6957b3343
+langcode: en
+status: true
+dependencies:
+  module:
+    - taxonomy
+    - user
+id: user.field_home_region
+field_name: field_home_region
+entity_type: user
+type: entity_reference
+settings:
+  target_type: taxonomy_term
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

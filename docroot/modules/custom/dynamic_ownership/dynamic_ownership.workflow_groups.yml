@@ -1,0 +1,3 @@
+dynamic_ownership:
+  label: User dynamic relation
+  entity_type: user_ownership

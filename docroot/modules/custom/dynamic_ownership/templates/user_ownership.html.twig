@@ -1,0 +1,22 @@
+{#
+/**
+ * @file user_ownership.html.twig
+ * Default theme implementation to present User ownership data.
+ *
+ * This template is used when viewing User ownership pages.
+ *
+ *
+ * Available variables:
+ * - content: A list of content items. Use 'content' to print all content, or
+ * - attributes: HTML attributes for the container element.
+ *
+ * @see template_preprocess_user_ownership()
+ *
+ * @ingroup themeable
+ */
+#}
+<div{{ attributes.addClass('user_ownership') }}>
+  {% if content %}
+    {{- content -}}
+  {% endif %}
+</div>

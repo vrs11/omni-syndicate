@@ -1,0 +1,27 @@
+dynamic_ownership.user_ownership_type.*:
+  type: config_entity
+  label: 'User ownership type config'
+  mapping:
+    id:
+      type: string
+      label: 'ID'
+    label:
+      type: label
+      label: 'Label'
+    uuid:
+      type: string
+    target_bundle:
+      type: string
+      label: 'Bundle'
+    conflicts_with:
+      label: 'Conflicts with'
+      type: sequence
+    limit:
+      type: integer
+      label: 'Ownerships limit per user'
+    target_roles:
+      label: 'Roles'
+      type: sequence
+    default_relation:
+      type: boolean
+      label: 'Use this type of relations for claims, in case of many'

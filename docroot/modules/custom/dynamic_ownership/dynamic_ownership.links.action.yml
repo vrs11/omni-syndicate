@@ -1,0 +1,11 @@
+entity.user_ownership.add_form:
+  route_name: entity.user_ownership.add_page
+  title: 'Add User ownership'
+  appears_on:
+    - view.ownerships_list.ownerships
+
+entity.user_ownership_type.add_form:
+  route_name: entity.user_ownership_type.add_form
+  title: 'Add User ownership type'
+  appears_on:
+    - entity.user_ownership_type.collection

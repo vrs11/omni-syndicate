@@ -1,0 +1,20 @@
+user_ownership:
+  id: user_ownership
+  group: dynamic_ownership
+  label: 'Default'
+  states:
+    new:
+      label: New
+    active:
+      label: Active
+    canceled:
+      label: Canceled
+  transitions:
+    activate:
+      label: 'Activate'
+      from: [new, canceled]
+      to: active
+    cancel:
+      label: 'Cancel'
+      from: [new, active]
+      to: canceled

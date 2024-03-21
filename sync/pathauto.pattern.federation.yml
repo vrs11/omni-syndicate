@@ -1,0 +1,22 @@
+uuid: 315553e6-85fc-4049-b26f-7b07fe759aea
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: federation
+label: Federation
+type: 'canonical_entities:node'
+pattern: 'federation/[node:title]'
+selection_criteria:
+  b5e6fcda-89ea-4315-88b9-0c17c51873af:
+    id: 'entity_bundle:node'
+    negate: false
+    uuid: b5e6fcda-89ea-4315-88b9-0c17c51873af
+    context_mapping:
+      node: node
+    bundles:
+      federation: federation
+selection_logic: and
+weight: -5
+relationships: {  }

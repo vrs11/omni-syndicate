@@ -4,9 +4,17 @@ status: true
 dependencies:
   config:
     - core.entity_view_mode.user.compact
-    - field.field.user.user.user_picture
-    - image.style.thumbnail
+    - field.field.user.user.field_avatar
+    - field.field.user.user.field_biography
+    - field.field.user.user.field_firstname
+    - field.field.user.user.field_home_city
+    - field.field.user.user.field_home_region
+    - field.field.user.user.field_lastname
+    - field.field.user.user.field_nickname
+    - field.field.user.user.field_phone
+    - image.style.medium
   module:
+    - address
     - image
     - user
 _core:
@@ -16,16 +24,36 @@ targetEntityType: user
 bundle: user
 mode: compact
 content:
-  user_picture:
+  field_avatar:
     type: image
     label: hidden
     settings:
-      image_link: content
-      image_style: thumbnail
+      image_link: ''
+      image_style: medium
       image_loading:
         attribute: lazy
     third_party_settings: {  }
     weight: 0
     region: content
+  field_home_city:
+    type: address_plain
+    label: inline
+    settings: {  }
+    third_party_settings: {  }
+    weight: 2
+    region: content
+  field_nickname:
+    type: string
+    label: hidden
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 1
+    region: content
 hidden:
+  field_biography: true
+  field_firstname: true
+  field_home_region: true
+  field_lastname: true
+  field_phone: true
   member_for: true

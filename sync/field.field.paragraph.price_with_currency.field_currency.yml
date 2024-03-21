@@ -1,0 +1,29 @@
+uuid: 10a5e78e-21ae-4469-b8ae-52e52f4fa1c2
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_currency
+    - paragraphs.paragraphs_type.price_with_currency
+    - taxonomy.vocabulary.currency
+id: paragraph.price_with_currency.field_currency
+field_name: field_currency
+entity_type: paragraph
+bundle: price_with_currency
+label: Currency
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      currency: currency
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

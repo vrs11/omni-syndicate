@@ -1,0 +1,23 @@
+uuid: 316ca9ba-aaec-41ca-90d7-a7f49e49e9dc
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_website
+    - node.type.club
+  module:
+    - link
+id: node.club.field_website
+field_name: field_website
+entity_type: node
+bundle: club
+label: Website
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  title: 1
+  link_type: 17
+field_type: link
