@@ -3,7 +3,6 @@ langcode: en
 status: true
 dependencies:
   module:
-    - comment
     - contextual
     - file
     - node
@@ -25,7 +24,6 @@ permissions:
   - 'administer url aliases'
   - 'create url aliases'
   - 'delete own files'
-  - 'edit own comments'
   - 'revert all revisions'
   - 'view all revisions'
   - 'view own unpublished content'

@@ -6,6 +6,7 @@ dependencies:
     - field.field.node.club.body
     - field.field.node.club.field_address
     - field.field.node.club.field_email
+    - field.field.node.club.field_federation
     - field.field.node.club.field_logo
     - field.field.node.club.field_phone
     - field.field.node.club.field_website
@@ -13,6 +14,7 @@ dependencies:
     - node.type.club
   module:
     - address
+    - entity_reference_confirmation
     - image
     - link
     - mobile_number
@@ -43,6 +45,14 @@ content:
     settings: {  }
     third_party_settings: {  }
     weight: 3
+    region: content
+  field_federation:
+    type: entity_reference_confirm_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 6
     region: content
   field_logo:
     type: image
@@ -78,6 +88,6 @@ content:
   links:
     settings: {  }
     third_party_settings: {  }
-    weight: 6
+    weight: 7
     region: content
 hidden: {  }

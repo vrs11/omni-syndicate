@@ -6,6 +6,7 @@ dependencies:
     - field.field.node.club.body
     - field.field.node.club.field_address
     - field.field.node.club.field_email
+    - field.field.node.club.field_federation
     - field.field.node.club.field_logo
     - field.field.node.club.field_phone
     - field.field.node.club.field_website
@@ -13,6 +14,7 @@ dependencies:
     - node.type.club
   module:
     - address
+    - entity_reference_confirmation
     - image
     - link
     - mobile_number
@@ -35,7 +37,7 @@ content:
     third_party_settings: {  }
   created:
     type: datetime_timestamp
-    weight: 8
+    weight: 9
     region: content
     settings: {  }
     third_party_settings: {  }
@@ -53,6 +55,16 @@ content:
     settings:
       placeholder: ''
       size: 60
+    third_party_settings: {  }
+  field_federation:
+    type: entity_reference_confirm_autocomplete
+    weight: 7
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
     third_party_settings: {  }
   field_logo:
     type: image_image
@@ -81,27 +93,27 @@ content:
     third_party_settings: {  }
   path:
     type: path
-    weight: 11
+    weight: 12
     region: content
     settings: {  }
     third_party_settings: {  }
   promote:
     type: boolean_checkbox
-    weight: 9
+    weight: 10
     region: content
     settings:
       display_label: true
     third_party_settings: {  }
   status:
     type: boolean_checkbox
-    weight: 12
+    weight: 13
     region: content
     settings:
       display_label: true
     third_party_settings: {  }
   sticky:
     type: boolean_checkbox
-    weight: 10
+    weight: 11
     region: content
     settings:
       display_label: true
@@ -116,7 +128,7 @@ content:
     third_party_settings: {  }
   uid:
     type: entity_reference_autocomplete
-    weight: 7
+    weight: 8
     region: content
     settings:
       match_operator: CONTAINS

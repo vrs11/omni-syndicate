@@ -1,0 +1,20 @@
+uuid: 3b655a3e-feb4-452e-bc6b-d3d6ab9dca0e
+langcode: en
+status: true
+dependencies:
+  module:
+    - entity_reference_confirmation
+    - node
+id: node.field_federation
+field_name: field_federation
+entity_type: node
+type: entity_reference_confirm
+settings:
+  target_type: node
+module: entity_reference_confirmation
+locked: false
+cardinality: -1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

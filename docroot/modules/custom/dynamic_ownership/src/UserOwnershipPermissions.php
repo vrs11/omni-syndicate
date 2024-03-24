@@ -54,7 +54,7 @@ class UserOwnershipPermissions{
     ];
 
     foreach (['view', 'edit', 'delete'] as $op) {
-      foreach (['own', 'inherited', 'any'] as $scope) {
+      foreach (['own', 'any'] as $scope) {
         $permissions["$op $scope ownership: $type_id"] = [
           'title' => $this->t(
             "%op %scope ownership of type: %type_name", $type_params + [
@@ -68,9 +68,6 @@ class UserOwnershipPermissions{
     foreach (UserOwnership::DEFAULT_FIELDS as $id => $field) {
       $permissions["edit own ownership: $type_id field $field"] = [
         'title' => $this->t('Edit own ownership: %type_name field %field', $type_params + ['%field' => $field]),
-      ];
-      $permissions["edit inherited ownership: $type_id field $field"] = [
-        'title' => $this->t('Edit inherited ownership: %type_name field %field', $type_params + ['%field' => $field]),
       ];
     }
 

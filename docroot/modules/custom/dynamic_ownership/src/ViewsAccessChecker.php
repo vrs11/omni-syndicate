@@ -58,7 +58,7 @@ class ViewsAccessChecker {
     $permission = $rout_match->getRouteObject()->getRequirement('_permission_to_check');
     $ownership_type = $rout_match->getRouteObject()->getRequirement('_required_ownership_type');
     if (empty($permission)) {
-      return AccessResult::neutral('Route is missing permission to check');
+      return AccessResult::neutral('Route is missing the permission to check');
     }
 
     $roles = dynamic_ownership_get_all_user_roles($account, $ownership_type ?? NULL);

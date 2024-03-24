@@ -7,6 +7,7 @@ dependencies:
     - field.field.node.club.body
     - field.field.node.club.field_address
     - field.field.node.club.field_email
+    - field.field.node.club.field_federation
     - field.field.node.club.field_logo
     - field.field.node.club.field_phone
     - field.field.node.club.field_website
@@ -48,5 +49,6 @@ content:
 hidden:
   field_address: true
   field_email: true
+  field_federation: true
   field_phone: true
   field_website: true

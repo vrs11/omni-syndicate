@@ -1,4 +1,10 @@
 services:
+  dynamic_ownership.access.manager:
+    class: Drupal\dynamic_ownership\UserOwnershipAccessManager
+    arguments:
+      - '@entity_type.manager'
+      - '@current_user'
+
   dynamic_ownership.views.access_checker:
     class: Drupal\dynamic_ownership\ViewsAccessChecker
     arguments:
@@ -9,8 +15,7 @@ services:
     tags:
       - { name: twig.extension }
     arguments:
-      - '@entity_type.manager'
-      - '@current_user'
+      - '@dynamic_ownership.access.manager'
 
   dynamic_ownership.ownership.basics:
     class: Drupal\dynamic_ownership\EventSubscriber\DynamicOwnershipBasics

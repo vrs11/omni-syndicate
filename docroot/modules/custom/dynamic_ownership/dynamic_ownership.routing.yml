@@ -1,11 +1,11 @@
 dynamic_ownership.node_claim:
-  path: '/ownership/claim/{entity}'
+  path: '/ownership/claim/{node}'
   defaults:
     _title: 'Entity claim'
     _controller: '\Drupal\dynamic_ownership\Controller\ClaimEntityController::claim'
   options:
     parameters:
-      entity:
-        type: 'entity'
+      node:
+        type: 'entity:node'
   requirements:
     _custom_access: '\Drupal\dynamic_ownership\ClaimAccessCheck::checkClaimAccess'

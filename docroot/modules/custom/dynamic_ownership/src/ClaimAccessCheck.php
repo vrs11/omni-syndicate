@@ -15,7 +15,7 @@ class ClaimAccessCheck {
   /**
    * Check users access to claim the entity.
    *
-   * @param \Drupal\Core\Entity\EntityInterface $entity
+   * @param \Drupal\Core\Entity\EntityInterface $node
    *   A node.
    * @param \Drupal\Core\Session\AccountProxy $account
    *   The account proxy.
@@ -27,18 +27,18 @@ class ClaimAccessCheck {
    * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
    */
   public static function checkClaimAccess(
-    EntityInterface $entity,
-    AccountProxy $account
+    AccountProxy $account,
+    EntityInterface $node
   ) {
-    $bundle = $entity->bundle();
-    $type_id = $entity->getEntityTypeId();
+    $bundle = $node->bundle();
+    $type_id = $node->getEntityTypeId();
     $ownership_type = UserOwnershipType::loadDefault("{$type_id}:{$bundle}");
 
     if (empty($ownership_type)) {
       return AccessResult::forbidden();
     }
 
-    $id = $entity->id();
+    $id = $node->id();
     $uid = $account->id();
 
     if (

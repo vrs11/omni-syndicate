@@ -28,25 +28,15 @@ class UserOwnershipAccessControlHandler extends EntityAccessControlHandler {
   protected function getOwnershipStatus(AccountInterface $account, $entity) {
     $entity_status = [
       'new' => FALSE,
-      'scope' => 'none',
+      'scope' => 'any',
       'roles' => [],
     ];
     $entity_status['roles'] = $account->getRoles();
-    if (empty($oid = $entity->get('oid')->value)) {
+    if (empty($entity->get('oid')->value)) {
       $entity_status['new'] = TRUE;
-    }
-    else {
-      if ($entity->get('user_id')->target_id == $account->id()) {
-        $entity_status['scope'] = 'own';
-        (!empty($role = $entity->get('role_id'))) && ($entity_status['roles'][] = $role->target_id);
-      } elseif (!empty($trans = \Drupal::entityTypeManager()->getStorage('user_ownership')->loadByProperties([
-        'entity_id__target_id' => $entity->get('entity_id')->target_id,
-        'user_id' => $account->id(),
-        'state' => 'active',
-      ]))) {
-        $entity_status['scope'] = 'inherited';
-        (!empty($role = reset($trans)->get('role_id'))) && ($entity_status['roles'][] = $role->target_id);
-      }
+    } elseif ($entity->get('user_id')->target_id == $account->id()) {
+      $entity_status['scope'] = 'own';
+      (!empty($role = $entity->get('role_id'))) && ($entity_status['roles'][] = $role->target_id);
     }
 
     $entity_status['roles'] = array_unique($entity_status['roles']);
@@ -156,7 +146,6 @@ class UserOwnershipAccessControlHandler extends EntityAccessControlHandler {
             'view any user ownership' => TRUE,
             'view active user ownership' => TRUE,
             "view any ownership: $type_id" => TRUE,
-            "view inherited ownership: $type_id" => $entity_status['scope'] == 'inherited',
             "view own ownership: $type_id" => $entity_status['scope'] == 'own',
           ],
           $entity_status
@@ -170,7 +159,6 @@ class UserOwnershipAccessControlHandler extends EntityAccessControlHandler {
             'edit any user ownership' => TRUE,
             'edit active user ownership' => TRUE,
             "edit any ownership: $type_id" => TRUE,
-            "edit inherited ownership: $type_id" => $entity_status['scope'] == 'inherited',
             "edit own ownership: $type_id" => $entity_status['scope'] == 'own',
           ],
           $entity_status
@@ -184,7 +172,6 @@ class UserOwnershipAccessControlHandler extends EntityAccessControlHandler {
             'delete any user ownership' => TRUE,
             'delete active user ownership' => TRUE,
             "delete any ownership: $type_id" => TRUE,
-            "delete inherited ownership: $type_id" => $entity_status['scope'] == 'inherited',
             "delete own ownership: $type_id" => $entity_status['scope'] == 'own',
           ],
           $entity_status
@@ -200,8 +187,6 @@ class UserOwnershipAccessControlHandler extends EntityAccessControlHandler {
    * {@inheritdoc}
    */
   protected function checkCreateAccess(AccountInterface $account, array $context, $entity_bundle = NULL) {
-    $common_permission = "add user ownership";
-    $permission = "create ownership: $entity_bundle";
     return AccessResult::allowedIfHasPermission($account, 'add user ownership entities');
   }
 
