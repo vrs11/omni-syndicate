@@ -26,7 +26,6 @@
         "drupal/dynamic_entity_reference": "^3.2",
         "drupal/entitygroupfield": "^2.0@alpha",
         "drupal/environment_indicator": "^4.0",
-        "drupal/inline_entity_form": "^3.0@RC",
         "drupal/mobile_number": "^2.0",
         "drupal/paragraphs": "^1.17",
         "drupal/pathauto": "^1.12",
