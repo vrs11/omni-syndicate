@@ -1,0 +1,18 @@
+stated_entity_reference.stated_entity_reference_type.*:
+  type: config_entity
+  label: 'Stated entity reference type config'
+  mapping:
+    id:
+      type: string
+      label: 'ID'
+    label:
+      type: label
+      label: 'Label'
+    uuid:
+      type: string
+    source_bundle:
+      type: string
+      label: 'Source bundle'
+    target_bundle:
+      type: string
+      label: 'Target bundle'

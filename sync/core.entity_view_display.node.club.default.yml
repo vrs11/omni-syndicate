@@ -1,4 +1,4 @@
-uuid: f53bef45-b7bf-4b42-9d21-3480bfdf8a71
+uuid: 6a07e76f-ff05-49e1-88d4-e9a5c95ef271
 langcode: en
 status: true
 dependencies:
@@ -6,7 +6,6 @@ dependencies:
     - field.field.node.club.body
     - field.field.node.club.field_address
     - field.field.node.club.field_email
-    - field.field.node.club.field_federation
     - field.field.node.club.field_logo
     - field.field.node.club.field_phone
     - field.field.node.club.field_website
@@ -14,7 +13,6 @@ dependencies:
     - node.type.club
   module:
     - address
-    - entity_reference_confirmation
     - image
     - link
     - mobile_number
@@ -27,32 +25,34 @@ mode: default
 content:
   body:
     type: text_default
-    label: hidden
+    label: above
     settings: {  }
     third_party_settings: {  }
     weight: 5
+    region: content
+  federation_club:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 6
+    region: content
+  federation_club_stated_entity_reference:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 6
     region: content
   field_address:
     type: address_default
     label: above
     settings: {  }
     third_party_settings: {  }
-    weight: 2
+    weight: 1
     region: content
   field_email:
-    type: email_mailto
+    type: basic_string
     label: inline
     settings: {  }
     third_party_settings: {  }
-    weight: 3
-    region: content
-  field_federation:
-    type: entity_reference_confirm_label
-    label: above
-    settings:
-      link: true
-    third_party_settings: {  }
-    weight: 6
+    weight: 2
     region: content
   field_logo:
     type: image
@@ -69,9 +69,9 @@ content:
     type: mobile_number_international
     label: inline
     settings:
-      as_link: '1'
+      as_link: false
     third_party_settings: {  }
-    weight: 4
+    weight: 3
     region: content
   field_website:
     type: link
@@ -83,7 +83,7 @@ content:
       rel: nofollow
       target: _blank
     third_party_settings: {  }
-    weight: 1
+    weight: 4
     region: content
   links:
     settings: {  }

@@ -1,6 +1,0 @@
-services:
-  entity_reference_confirmation.access.manager:
-    class: Drupal\entity_reference_confirmation\EntityReferenceConfirmAccessManager
-    arguments:
-      - '@module_handler'
-      - '@current_user'

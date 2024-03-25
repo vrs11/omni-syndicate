@@ -1,0 +1,8 @@
+name: 'Stated entity reference'
+type: module
+description: 'Provides a entity reference field with state and access attributes'
+package: Entity reference
+core_version_requirement: ^10 || ^11
+dependencies:
+  - dynamic_entity_reference:dynamic_entity_reference
+  - workflow:workflow

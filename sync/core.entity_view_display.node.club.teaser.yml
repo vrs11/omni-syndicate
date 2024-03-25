@@ -7,11 +7,10 @@ dependencies:
     - field.field.node.club.body
     - field.field.node.club.field_address
     - field.field.node.club.field_email
-    - field.field.node.club.field_federation
     - field.field.node.club.field_logo
     - field.field.node.club.field_phone
     - field.field.node.club.field_website
-    - image.style.medium
+    - image.style.thumbnail
     - node.type.club
   module:
     - image
@@ -26,29 +25,30 @@ content:
     type: text_summary_or_trimmed
     label: hidden
     settings:
-      trim_length: 600
+      trim_length: 300
     third_party_settings: {  }
     weight: 1
+    region: content
+  federation_club:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 2
     region: content
   field_logo:
     type: image
     label: hidden
     settings:
       image_link: ''
-      image_style: medium
+      image_style: thumbnail
       image_loading:
         attribute: lazy
     third_party_settings: {  }
     weight: 0
     region: content
-  links:
-    settings: {  }
-    third_party_settings: {  }
-    weight: 2
-    region: content
 hidden:
+  federation_club_stated_entity_reference: true
   field_address: true
   field_email: true
-  field_federation: true
   field_phone: true
   field_website: true
+  links: true

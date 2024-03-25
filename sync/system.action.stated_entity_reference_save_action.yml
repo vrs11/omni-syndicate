@@ -1,0 +1,13 @@
+uuid: 47aa8fe9-c47e-411c-bc10-ec11dacfa841
+langcode: en
+status: true
+dependencies:
+  module:
+    - stated_entity_reference
+_core:
+  default_config_hash: wRvw8xFDtse6BYnWNZddg91eJB1POaLjYvm3DytswTc
+id: stated_entity_reference_save_action
+label: 'Save Stated entity references'
+type: stated_entity_reference
+plugin: 'entity:save_action:stated_entity_reference'
+configuration: {  }

@@ -1,0 +1,10 @@
+entity.stated_entity_reference.edit_form:
+  route_name: entity.stated_entity_reference.edit_form
+  group: stated_entity_reference
+  title: 'Edit'
+
+entity.stated_entity_reference.delete_form:
+  route_name: entity.stated_entity_reference.delete_form
+  group: stated_entity_reference
+  title: 'Delete'
+  weight: 10

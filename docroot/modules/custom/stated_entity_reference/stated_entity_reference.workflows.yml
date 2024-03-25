@@ -1,0 +1,20 @@
+stated_entity_reference:
+  id: stated_entity_reference
+  group: stated_entity_reference
+  label: 'Default'
+  states:
+    new:
+      label: New
+    active:
+      label: Active
+    rejected:
+      label: Rejected
+  transitions:
+    activate:
+      label: 'Activate'
+      from: [new, rejected]
+      to: active
+    reject:
+      label: 'Reject'
+      from: [new, active]
+      to: rejected

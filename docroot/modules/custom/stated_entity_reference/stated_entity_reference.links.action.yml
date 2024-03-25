@@ -1,0 +1,11 @@
+stated_entity_reference.type_add:
+  title: 'Add Stated entity reference type'
+  route_name: entity.stated_entity_reference_type.add_form
+  appears_on:
+    - entity.stated_entity_reference_type.collection
+
+stated_entity_reference.add_page:
+  title: 'Add Stated entity reference'
+  route_name: entity.stated_entity_reference.add_page
+  appears_on:
+    - entity.stated_entity_reference.collection

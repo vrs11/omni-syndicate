@@ -1,0 +1,10 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - stated_entity_reference
+id: stated_entity_reference_delete_action
+label: 'Delete Stated entity references'
+type: stated_entity_reference
+plugin: entity:delete_action:stated_entity_reference
+configuration: {  }

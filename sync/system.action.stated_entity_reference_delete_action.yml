@@ -1,0 +1,13 @@
+uuid: 85fbfc74-e128-49ee-96bb-07ad48a26b9a
+langcode: en
+status: true
+dependencies:
+  module:
+    - stated_entity_reference
+_core:
+  default_config_hash: vmkdIs1nEke_TX9L2zBbs2uYdj8FwScCqdzmof8eBEA
+id: stated_entity_reference_delete_action
+label: 'Delete Stated entity references'
+type: stated_entity_reference
+plugin: 'entity:delete_action:stated_entity_reference'
+configuration: {  }

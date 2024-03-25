@@ -1,0 +1,137 @@
+<?php
+
+/**
+ * @file
+ * Primary module hooks for Stated entity reference module.
+ */
+
+use Drupal\Core\Entity\EntityForm;
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Render\Element;
+use Drupal\user\UserInterface;
+use Drupal\stated_entity_reference\Entity\StatedEntityReferenceType;
+
+/**
+ * Implements hook_theme().
+ */
+function stated_entity_reference_theme(): array {
+  return [
+    'stated_entity_reference' => ['render element' => 'elements'],
+  ];
+}
+
+/**
+ * Prepares variables for Stated entity reference templates.
+ *
+ * Default template: entity-reference-state.html.twig.
+ *
+ * @param array $variables
+ *   An associative array containing:
+ *   - elements: An associative array containing the Stated entity reference information and any
+ *     fields attached to the entity.
+ *   - attributes: HTML attributes for the containing element.
+ */
+function template_preprocess_stated_entity_reference(array &$variables): void {
+  $variables['view_mode'] = $variables['elements']['#view_mode'];
+  foreach (Element::children($variables['elements']) as $key) {
+    $variables['content'][$key] = $variables['elements'][$key];
+  }
+}
+
+/**
+ * Implements hook_user_cancel().
+ */
+function stated_entity_reference_user_cancel($edit, UserInterface $account, $method): void {
+  switch ($method) {
+    case 'user_cancel_reassign':
+      // Anonymize Stated entity references.
+      $storage = \Drupal::entityTypeManager()->getStorage('stated_entity_reference');
+      $stated_entity_reference_ids = $storage->getQuery()
+        ->condition('uid', $account->id())
+        ->accessCheck(FALSE)
+        ->execute();
+      foreach ($storage->loadMultiple($stated_entity_reference_ids) as $stated_entity_reference) {
+        $stated_entity_reference->setOwnerId(0)->save();
+      }
+      break;
+  }
+}
+
+/**
+ * Implements hook_ENTITY_TYPE_predelete() for user entities.
+ */
+function stated_entity_reference_user_predelete(UserInterface $account): void {
+  // Delete Stated entity references that belong to this account.
+  $storage = \Drupal::entityTypeManager()->getStorage('stated_entity_reference');
+  $stated_entity_reference_ids = $storage->getQuery()
+    ->condition('uid', $account->id())
+    ->accessCheck(FALSE)
+    ->execute();
+  $storage->delete(
+    $storage->loadMultiple($stated_entity_reference_ids)
+  );
+}
+
+/**
+ * Alter "pseudo-field" components on content entities.
+ *
+ * @param array $info
+ *   The array structure is identical to that of the return value of
+ *   \Drupal\Core\Entity\EntityFieldManagerInterface::getExtraFields().
+ *
+ * @see hook_entity_extra_field_info()
+ */
+function stated_entity_reference_entity_extra_field_info_alter(&$info) {
+  foreach (StatedEntityReferenceType::loadMultiple() as $type) {
+    [$entity_type, $bundle] = explode(':', $type->getSourceBundle());
+    $info[$entity_type][$bundle]['form'][$type->id() . '_stated_entity_reference'] = [
+      'label' => $type->label(),
+      'description' => t('Stated entity reference field for @label', ['@label' => $type->label()]),
+      'weight' => 0,
+    ];
+
+    $info[$entity_type][$bundle]['display'][$type->id() . '_stated_entity_reference'] = [
+      'label' => $type->label(),
+      'description' => t('Stated entity reference field for @label', ['@label' => $type->label()]),
+      'weight' => 0,
+    ];
+  }
+}
+
+/**
+ * Perform alterations before a form is rendered.
+ *
+ * @see hook_form_BASE_FORM_ID_alter()
+ * @see hook_form_FORM_ID_alter()
+ */
+function stated_entity_reference_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+  if (
+    !(($form_object = $form_state->getFormObject()) instanceof EntityForm)
+    || $form_object->getOperation() != 'edit'
+  ) {
+    return;
+  }
+
+  $type = $form_object->getEntity()->getEntityTypeId();
+  $bundle = $form_object->getEntity()->bundle();
+
+  $ref_types = \Drupal::entityTypeManager()->getStorage('stated_entity_reference_type')->loadByProperties([
+    'source_bundle' => "{$type}:{$bundle}",
+  ]);
+  if (empty($ref_types)) {
+    return;
+  }
+
+  foreach ($ref_types as $ref_type) {
+    $key = $ref_type->id() . '_stated_entity_reference';
+    $form[$key] = [
+      '#type' => 'details',
+      '#title' => $ref_type->label(),
+    ];
+
+    $form[$key]['label'] = [
+      '#type' => 'markup',
+      '#markup' => 'Test field',
+    ];
+  }
+}

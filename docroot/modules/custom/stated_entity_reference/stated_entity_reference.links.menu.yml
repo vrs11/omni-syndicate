@@ -1,0 +1,11 @@
+entity.stated_entity_reference_type.collection:
+  title: 'Stated entity reference types'
+  description: 'Manage and CRUD actions on Stated entity reference type.'
+  parent: system.admin_structure
+  route_name: entity.stated_entity_reference_type.collection
+
+entity.stated_entity_reference.collection:
+  title: 'Stated entity references'
+  description: 'List of Stated entity references.'
+  route_name: entity.stated_entity_reference.collection
+  parent: system.admin_content

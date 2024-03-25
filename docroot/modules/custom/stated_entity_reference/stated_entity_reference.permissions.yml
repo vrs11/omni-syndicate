@@ -1,0 +1,15 @@
+administer stated_entity_reference types:
+  title: 'Administer Stated entity reference types'
+  description: 'Maintain the types of Stated entity reference entity.'
+  restrict access: true
+
+approve stated_entity_reference:
+  title: 'Approve Stated entity reference'
+view stated_entity_reference:
+  title: 'View Stated entity reference'
+edit stated_entity_reference:
+  title: 'Edit Stated entity reference'
+delete stated_entity_reference:
+  title: 'Delete Stated entity reference'
+create stated_entity_reference:
+  title: 'Create Stated entity reference'
