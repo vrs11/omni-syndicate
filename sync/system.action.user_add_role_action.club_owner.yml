@@ -1,0 +1,14 @@
+uuid: 22b30d88-a1c5-4b5b-8096-f5b3fcad21a3
+langcode: en
+status: true
+dependencies:
+  config:
+    - user.role.club_owner
+  module:
+    - user
+id: user_add_role_action.club_owner
+label: 'Add the Club owner role to the selected user(s)'
+type: user
+plugin: user_add_role_action
+configuration:
+  rid: club_owner

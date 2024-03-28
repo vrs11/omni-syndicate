@@ -110,7 +110,7 @@ final class StatedEntityReferenceTypeForm extends BundleEntityFormBase {
       '#type' => 'select',
       '#title' => $this->t('Source bundle'),
       '#options' => $bundle_options,
-      '#default_value' => $this->entity->getTargetBundle(),
+      '#default_value' => $this->entity->getSourceBundle(),
       '#required' => TRUE,
       '#size' => 6,
       '#multiple' => FALSE,

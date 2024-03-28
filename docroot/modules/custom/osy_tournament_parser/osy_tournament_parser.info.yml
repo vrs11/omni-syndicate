@@ -1,0 +1,5 @@
+name: 'Tournament parser'
+type: module
+description: 'Omni syndicate tournament results parser'
+package: 'Omni syndicate'
+core_version_requirement: ^9 || ^10

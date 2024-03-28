@@ -7,8 +7,6 @@ use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityTypeInterface;
 use Drupal\Core\Entity\Sql\SqlContentEntityStorage;
 use Drupal\dynamic_ownership\Entity\UserOwnershipInterface;
-use Drupal\dynamic_ownership\Event\UserOwnershipActivatedEvent;
-use Drupal\dynamic_ownership\Event\UserOwnershipCanceledEvent;
 use Drupal\dynamic_ownership\Event\UserOwnershipCreatedEvent;
 use Drupal\dynamic_ownership\Event\UserOwnershipDeletedEvent;
 use Drupal\dynamic_ownership\Event\UserOwnershipUpdatedEvent;
@@ -66,29 +64,11 @@ class UserOwnershipStorage extends SqlContentEntityStorage implements UserOwners
    *   Specifies whether the entity is being updated or created.
    */
   protected function doPostSave(EntityInterface $entity, $update) {
-    $state = $entity->getState();
-    $original_state = $entity->original->getState();
-
     if ($update) {
       $this->eventDispatcher->dispatch(
         new UserOwnershipUpdatedEvent($entity),
         UserOwnershipUpdatedEvent::EVENT_NAME
       );
-
-      if ($state != $original_state) {
-        if ($state == 'canceled') {
-          $this->eventDispatcher->dispatch(
-            new UserOwnershipCanceledEvent($entity),
-            UserOwnershipCanceledEvent::EVENT_NAME
-          );
-        }
-        else {
-          $this->eventDispatcher->dispatch(
-            new UserOwnershipActivatedEvent($entity),
-            UserOwnershipActivatedEvent::EVENT_NAME
-          );
-        }
-      }
     } else {
       $this->eventDispatcher->dispatch(
         new UserOwnershipCreatedEvent($entity),

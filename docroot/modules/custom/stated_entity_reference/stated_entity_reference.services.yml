@@ -1,0 +1,11 @@
+services:
+  stated_entity_reference.form.manager:
+    class: Drupal\stated_entity_reference\FormManager
+    arguments:
+      - '@element_info'
+      - '@entity_type.manager'
+
+  stated_entity_reference.workflow_state_change_subscriber:
+    class: Drupal\stated_entity_reference\EventSubscriber\WorkflowStateChangeSubscriber
+    tags:
+      - { name: event_subscriber }

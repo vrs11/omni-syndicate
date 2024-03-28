@@ -1,0 +1,14 @@
+uuid: e30206d6-55b1-4712-81e8-295ccdc436ae
+langcode: en
+status: true
+dependencies:
+  config:
+    - user.role.club_owner
+  module:
+    - user
+id: user_remove_role_action.club_owner
+label: 'Remove the Club owner role from the selected user(s)'
+type: user
+plugin: user_remove_role_action
+configuration:
+  rid: club_owner

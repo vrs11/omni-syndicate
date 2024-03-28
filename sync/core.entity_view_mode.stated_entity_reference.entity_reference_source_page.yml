@@ -1,0 +1,11 @@
+uuid: 1cfd58cb-40da-4e35-ab59-4089a68ca3f2
+langcode: en
+status: true
+dependencies:
+  module:
+    - stated_entity_reference
+id: stated_entity_reference.entity_reference_source_page
+label: 'Entity reference on a source entity page'
+description: ''
+targetEntityType: stated_entity_reference
+cache: true

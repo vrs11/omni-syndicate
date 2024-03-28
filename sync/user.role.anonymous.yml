@@ -8,6 +8,7 @@ dependencies:
     - contact
     - filter
     - search
+    - stated_entity_reference
     - system
 _core:
   default_config_hash: 6WavjUYXIegP9AAg2zXGx54MWIVoomC3SZhNiqe-Dyk
@@ -20,3 +21,4 @@ permissions:
   - 'access site-wide contact form'
   - 'search content'
   - 'use text format restricted_html'
+  - 'view active stated_entity_reference'

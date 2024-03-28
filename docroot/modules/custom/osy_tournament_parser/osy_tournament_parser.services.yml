@@ -1,0 +1,4 @@
+services:
+  plugin.manager.osy_tournament_parser:
+    class: Drupal\osy_tournament_parser\OsyTournamentParserPluginManager
+    parent: default_plugin_manager

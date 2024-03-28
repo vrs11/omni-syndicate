@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Drupal\stated_entity_reference\Entity;
 
+use Drupal\Core\Cache\Cache;
 use Drupal\Core\Entity\ContentEntityBase;
 use Drupal\Core\Entity\EntityChangedTrait;
 use Drupal\Core\Entity\EntityInterface;
@@ -75,6 +76,11 @@ class StatedEntityReference extends ContentEntityBase implements StatedEntityRef
       // If no owner has been set explicitly, make the anonymous user the owner.
       $this->setOwnerId(\Drupal::currentUser()->id());
     }
+
+    Cache::invalidateTags([
+      'node:' . $this->getSourceEntity()->id(),
+      'node:' . $this->getTargetEntity()->id(),
+    ]);
   }
 
   /**
@@ -103,18 +109,18 @@ class StatedEntityReference extends ContentEntityBase implements StatedEntityRef
    */
   public function setSourceEntity(EntityInterface $entity) {
     $settings = $this->getFieldDefinition('source_entity_id')->getSettings();
-    $bundle = $entity->bundle();
+    $type = $entity->getEntityTypeId();
 
     if (
       !empty($settings['exclude_entity_types']) &&
-      !in_array($bundle, $settings['entity_type_ids'])
+      !in_array($type, $settings['entity_type_ids'])
     ) {
       return $this;
     }
 
     $reference_array = [
       'target_id' => $entity->id(),
-      'target_type' => $bundle,
+      'target_type' => $type,
     ];
 
     $this->set('source_entity_id', $reference_array);
@@ -133,18 +139,18 @@ class StatedEntityReference extends ContentEntityBase implements StatedEntityRef
    */
   public function setTargetEntity(EntityInterface $entity) {
     $settings = $this->getFieldDefinition('target_entity_id')->getSettings();
-    $bundle = $entity->bundle();
+    $type = $entity->getEntityTypeId();
 
     if (
       !empty($settings['exclude_entity_types']) &&
-      !in_array($bundle, $settings['entity_type_ids'])
+      !in_array($type, $settings['entity_type_ids'])
     ) {
       return $this;
     }
 
     $reference_array = [
       'target_id' => $entity->id(),
-      'target_type' => $bundle,
+      'target_type' => $type,
     ];
 
     $this->set('target_entity_id', $reference_array);

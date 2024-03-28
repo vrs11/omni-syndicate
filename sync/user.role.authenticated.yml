@@ -10,6 +10,7 @@ dependencies:
     - filter
     - search
     - shortcut
+    - stated_entity_reference
     - system
 _core:
   default_config_hash: cFrlqjtkTfvY3RGccjJkPf1SGIfJ942IrxTLWAO4mgA
@@ -24,3 +25,6 @@ permissions:
   - 'delete own files'
   - 'search content'
   - 'use text format basic_html'
+  - 'view active stated_entity_reference'
+  - 'view own stated_entity_reference'
+  - 'view referenced stated_entity_reference'

@@ -1,0 +1,18 @@
+uuid: ea12751e-f7f6-4e26-b128-7482520858e1
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.tournament_regular
+id: node.tournament_regular.title
+field_name: title
+entity_type: node
+bundle: tournament_regular
+label: Name
+description: ''
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

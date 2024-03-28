@@ -1,0 +1,14 @@
+stated_entity_reference.create.request:
+  path: '/stated-entity-reference/{stated_entity_reference_type}/{entity_type}/{entity}'
+  defaults:
+    _entity_form: 'stated_entity_reference.add'
+    entity_type_id: 'stated_entity_reference'
+  options:
+    parameters:
+      stated_entity_reference_type:
+        type: 'entity:stated_entity_reference_type'
+      entity:
+        type: 'entity:{entity_type}'
+  requirements:
+    _entity_create_access: 'stated_entity_reference:{stated_entity_reference_type}'
+    _custom_access: '\Drupal\stated_entity_reference\Form\StatedEntityReferenceForm::CustomRouteAccess'

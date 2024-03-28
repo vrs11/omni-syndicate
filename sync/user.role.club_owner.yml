@@ -1,0 +1,13 @@
+uuid: 1ba04765-5d85-48f9-a165-04efa64c97f6
+langcode: en
+status: true
+dependencies:
+  module:
+    - stated_entity_reference
+id: club_owner
+label: 'Club owner'
+weight: 4
+is_admin: null
+permissions:
+  - 'view own stated_entity_reference'
+  - 'view referenced stated_entity_reference'

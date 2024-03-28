@@ -24,8 +24,3 @@ entity.user.ownerships:
   route_name: view.ownerships_list.my_ownership
   base_route: entity.user.canonical
   title: 'Ownerships'
-
-entity.user.inherited_ownerships:
-  route_name: view.ownerships_list.inherited_ownership
-  base_route: entity.user.canonical
-  title: 'Inherited ownerships'

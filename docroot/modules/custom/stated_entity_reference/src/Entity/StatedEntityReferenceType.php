@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Drupal\stated_entity_reference\Entity;
 
 use Drupal\Core\Config\Entity\ConfigEntityBundleBase;
+use Drupal\node\Entity\NodeType;
 
 /**
  * Defines the Stated entity reference type configuration entity.
@@ -109,6 +110,34 @@ class StatedEntityReferenceType extends ConfigEntityBundleBase implements Stated
    */
   public function getTargetBundle() {
     return $this->target_bundle;
+  }
+
+  /**
+   * Returns the value of a target bundle config value.
+   *
+   * @return string
+   *   The target bundle.
+   */
+  public function getTargetBundleLable() {
+    [$entity_type, $type] = explode(':', $this->target_bundle);
+    $bundle_entity_type = $this->entityTypeManager()->getDefinition($entity_type)->get('bundle_entity_type');
+    $class = $this->entityTypeManager()->getStorage($bundle_entity_type)->getEntityClass();
+    $entity_type = $class::load($type);
+    return $entity_type->label();
+  }
+
+  /**
+   * Returns the value of a target bundle config value.
+   *
+   * @return string
+   *   The target bundle.
+   */
+  public function getSourceBundleLable() {
+    [$entity_type, $type] = explode(':', $this->source_bundle);
+    $bundle_entity_type = $this->entityTypeManager()->getDefinition($entity_type)->get('bundle_entity_type');
+    $class = $this->entityTypeManager()->getStorage($bundle_entity_type)->getEntityClass();
+    $entity_type = $class::load($type);
+    return $entity_type->label();
   }
 
   /**

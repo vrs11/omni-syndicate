@@ -1,0 +1,28 @@
+uuid: f08733b0-584f-4048-92e3-8efdf7854c8b
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.tournament_regular.body
+    - node.type.tournament_regular
+  module:
+    - text
+    - user
+id: node.tournament_regular.default
+targetEntityType: node
+bundle: tournament_regular
+mode: default
+content:
+  body:
+    type: text_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 101
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden: {  }

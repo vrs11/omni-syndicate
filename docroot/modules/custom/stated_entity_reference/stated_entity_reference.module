@@ -5,11 +5,20 @@
  * Primary module hooks for Stated entity reference module.
  */
 
+use Drupal\Component\Serialization\Json;
+use Drupal\Core\Cache\Cache;
+use Drupal\Core\Entity\Display\EntityViewDisplayInterface;
 use Drupal\Core\Entity\EntityForm;
+use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Render\Element;
+use Drupal\Core\Url;
+use Drupal\stated_entity_reference\Entity\StatedEntityReference;
+use Drupal\stated_entity_reference\Entity\StatedEntityReferenceInterface;
+use Drupal\stated_entity_reference\FormManager;
 use Drupal\user\UserInterface;
 use Drupal\stated_entity_reference\Entity\StatedEntityReferenceType;
+use Drupal\workflow\Entity\WorkflowTransitionInterface;
 
 /**
  * Implements hook_theme().
@@ -44,21 +53,37 @@ function template_preprocess_stated_entity_reference(array &$variables): void {
 function stated_entity_reference_user_cancel($edit, UserInterface $account, $method): void {
   switch ($method) {
     case 'user_cancel_reassign':
-      // Anonymize Stated entity references.
-      $storage = \Drupal::entityTypeManager()->getStorage('stated_entity_reference');
-      $stated_entity_reference_ids = $storage->getQuery()
-        ->condition('uid', $account->id())
-        ->accessCheck(FALSE)
-        ->execute();
-      foreach ($storage->loadMultiple($stated_entity_reference_ids) as $stated_entity_reference) {
-        $stated_entity_reference->setOwnerId(0)->save();
-      }
+      stated_entity_reference_user_predelete($account);
       break;
   }
 }
 
 /**
- * Implements hook_ENTITY_TYPE_predelete() for user entities.
+ * Implements hook_ENTITY_TYPE_presave().
+ */
+function stated_entity_reference_workflow_transition_presave(WorkflowTransitionInterface $transition) {
+  stated_entity_reference_stated_entity_reference_presave($transition->getTargetEntity());
+}
+
+/**
+ * Implements hook_ENTITY_TYPE_predelete().
+ */
+function stated_entity_reference_stated_entity_reference_predelete(StatedEntityReferenceInterface $entity): void {
+  stated_entity_reference_stated_entity_reference_presave($entity);
+}
+
+/**
+ * Implements hook_ENTITY_TYPE_presave().
+ */
+function stated_entity_reference_stated_entity_reference_presave(StatedEntityReferenceInterface $entity): void {
+  Cache::invalidateTags([
+    $entity->getSourceEntity()->getEntityTypeId() . ':' . $entity->getSourceEntity()->id(),
+    $entity->getTargetEntity()->getEntityTypeId() . ':' . $entity->getTargetEntity()->id(),
+  ]);
+}
+
+/**
+ * Implements hook_ENTITY_TYPE_predelete().
  */
 function stated_entity_reference_user_predelete(UserInterface $account): void {
   // Delete Stated entity references that belong to this account.
@@ -67,9 +92,9 @@ function stated_entity_reference_user_predelete(UserInterface $account): void {
     ->condition('uid', $account->id())
     ->accessCheck(FALSE)
     ->execute();
-  $storage->delete(
-    $storage->loadMultiple($stated_entity_reference_ids)
-  );
+  foreach ($storage->loadMultiple($stated_entity_reference_ids) as $stated_entity_reference) {
+    $stated_entity_reference->setOwnerId(0)->save();
+  }
 }
 
 /**
@@ -122,6 +147,8 @@ function stated_entity_reference_form_alter(&$form, FormStateInterface $form_sta
     return;
   }
 
+  $form['#process'][] = [FormManager::class, 'processForm'];
+  $form_manager = \Drupal::service('stated_entity_reference.form.manager');
   foreach ($ref_types as $ref_type) {
     $key = $ref_type->id() . '_stated_entity_reference';
     $form[$key] = [
@@ -129,9 +156,73 @@ function stated_entity_reference_form_alter(&$form, FormStateInterface $form_sta
       '#title' => $ref_type->label(),
     ];
 
-    $form[$key]['label'] = [
-      '#type' => 'markup',
-      '#markup' => 'Test field',
+    $entity = $form_object->getEntity();
+    $refs = \Drupal::entityTypeManager()->getStorage('stated_entity_reference')->loadByProperties([
+      'type' => $ref_type->id(),
+      'source_entity_id__target_id' => $entity->id(),
+      'source_entity_id__target_type' => $entity->getEntityTypeId(),
+    ]);
+
+    foreach ($refs as $ref) {
+      $form[$key][$ref->id() . '_remove'] = [
+        '#type' => 'link',
+        '#title' => t('Remove @label', ['@label' => $ref->getTargetEntity()->getTitle()]),
+        '#access' => $entity->access('update'),
+        '#attributes' => [
+          'class' => ['button', 'use-ajax'],
+          'data-dialog-type' => 'modal',
+          'data-dialog-options' => Json::encode([
+            'width' => 880,
+          ]),
+        ],
+        '#url' => Url::fromRoute('entity.stated_entity_reference.delete_form', [
+          'stated_entity_reference' => $ref->id(),
+          'destination' => Url::fromRoute('<current>')->toString(),
+        ]),
+        '#attached' => [
+          'library' => ['core/drupal.dialog.ajax'],
+        ],
+      ];
+    }
+
+    $ref = StatedEntityReference::create(['type' => $ref_type->id()]);
+    $form_manager->processEntityForm($form, $form_state, [$key, 'new_reference'], $ref, $form_object->getEntity());
+  }
+}
+
+/**
+ * Implements hook_entity_view().
+ */
+function stated_entity_reference_entity_view(array &$build, EntityInterface $entity, EntityViewDisplayInterface $display, $view_mode) {
+  $type = $entity->getEntityTypeId();
+  $bundle = $entity->bundle();
+
+  $ref_types = \Drupal::entityTypeManager()->getStorage('stated_entity_reference_type')->loadByProperties([
+    'source_bundle' => "{$type}:{$bundle}",
+  ]);
+  if (empty($ref_types)) {
+    return;
+  }
+
+  foreach ($ref_types as $ref_type) {
+    $refs = \Drupal::entityTypeManager()->getStorage('stated_entity_reference')->loadByProperties([
+      'type' => $ref_type->id(),
+      'source_entity_id__target_id' => $entity->id(),
+      'source_entity_id__target_type' => $entity->getEntityTypeId(),
+    ]);
+    $refs = array_filter($refs, fn($ref) => $ref->access('view'), ARRAY_FILTER_USE_BOTH);
+    if (empty($refs)) {
+      continue;
+    }
+
+    $key = $ref_type->id() . '_stated_entity_reference';
+    $build[$key] = [
+      '#type' => 'details',
+      '#title' => $ref_type->label(),
+      '#open' => TRUE,
     ];
+
+    $reference_view_builder = \Drupal::entityTypeManager()->getViewBuilder('stated_entity_reference');
+    $build[$key]['refs'] = $reference_view_builder->viewMultiple($refs, 'entity_reference_source_page');
   }
 }

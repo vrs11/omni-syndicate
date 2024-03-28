@@ -1,0 +1,11 @@
+uuid: 5abc2d80-7b1e-480c-add9-6901a090ba28
+langcode: en
+status: true
+dependencies: {  }
+id: club_owner
+label: 'Club owner'
+target_bundle: 'node:club'
+conflicts_with: {  }
+limit: null
+target_roles:
+  - club_owner
