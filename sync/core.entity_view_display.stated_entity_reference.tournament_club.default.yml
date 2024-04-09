@@ -1,0 +1,76 @@
+uuid: 1e1d4ae9-fefa-4363-b449-59a0e5cb6eca
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.stated_entity_reference.tournament_club.field_parser_source
+    - stated_entity_reference.stated_entity_reference_type.tournament_club
+  module:
+    - dynamic_entity_reference
+    - state_machine
+    - user
+id: stated_entity_reference.tournament_club.default
+targetEntityType: stated_entity_reference
+bundle: tournament_club
+mode: default
+content:
+  created:
+    type: timestamp
+    label: above
+    settings:
+      date_format: medium
+      custom_date_format: ''
+      timezone: ''
+      tooltip:
+        date_format: long
+        custom_date_format: ''
+      time_diff:
+        enabled: false
+        future_format: '@interval hence'
+        past_format: '@interval ago'
+        granularity: 2
+        refresh: 60
+    third_party_settings: {  }
+    weight: 20
+    region: content
+  field_parser_source:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 51
+    region: content
+  source_entity_id:
+    type: dynamic_entity_reference_label
+    label: hidden
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  state:
+    type: state_transition_form
+    label: hidden
+    settings:
+      require_confirmation: false
+      use_modal: false
+    third_party_settings: {  }
+    weight: 50
+    region: content
+  target_entity_id:
+    type: dynamic_entity_reference_label
+    label: hidden
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  uid:
+    type: author
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 15
+    region: content
+hidden: {  }

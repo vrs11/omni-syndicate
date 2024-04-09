@@ -1,0 +1,15 @@
+diff --git a/src/Drush/Commands/DevelCommands.php b/src/Drush/Commands/DevelCommands.php
+--- a/src/Drush/Commands/DevelCommands.php
++++ b/src/Drush/Commands/DevelCommands.php	(date 1711811429713)
+@@ -7,10 +7,10 @@
+ use Consolidation\SiteAlias\SiteAliasManagerInterface;
+ use Consolidation\SiteProcess\Util\Escape;
+ use Drupal\Component\Uuid\Php;
++use Drupal\Core\DependencyInjection\AutowireTrait;
+ use Drupal\Core\Extension\ModuleHandlerInterface;
+ use Drupal\Core\Utility\Token;
+ use Drush\Attributes as CLI;
+-use Drush\Commands\AutowireTrait;
+ use Drush\Commands\DrushCommands;
+ use Drush\Commands\pm\PmCommands;
+ use Drush\Drush;

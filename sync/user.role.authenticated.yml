@@ -6,12 +6,14 @@ dependencies:
     - filter.format.basic_html
   module:
     - contact
+    - dynamic_ownership
     - file
     - filter
     - search
     - shortcut
     - stated_entity_reference
     - system
+    - workflow
 _core:
   default_config_hash: cFrlqjtkTfvY3RGccjJkPf1SGIfJ942IrxTLWAO4mgA
 id: authenticated
@@ -22,9 +24,12 @@ permissions:
   - 'access content'
   - 'access shortcuts'
   - 'access site-wide contact form'
+  - 'create tournament_status workflow_transition'
   - 'delete own files'
+  - 'delete own user_ownership'
   - 'search content'
   - 'use text format basic_html'
   - 'view active stated_entity_reference'
   - 'view own stated_entity_reference'
+  - 'view own user_ownership'
   - 'view referenced stated_entity_reference'

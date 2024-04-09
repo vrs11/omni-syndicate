@@ -1,0 +1,23 @@
+uuid: 72d79cd7-9358-4ac0-8bad-79c4bacedafd
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_tournament_duration
+    - node.type.tournament_regular
+id: node.tournament_regular.field_tournament_duration
+field_name: field_tournament_duration
+entity_type: node
+bundle: tournament_regular
+label: Duration
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  min: 0
+  max: null
+  prefix: ''
+  suffix: Day(s)
+field_type: integer

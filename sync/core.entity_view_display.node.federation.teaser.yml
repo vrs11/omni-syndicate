@@ -6,6 +6,7 @@ dependencies:
     - core.entity_view_mode.node.teaser
     - field.field.node.federation.body
     - field.field.node.federation.field_logo
+    - field.field.node.federation.field_original_reference_id
     - field.field.node.federation.field_prize_fund
     - field.field.node.federation.field_website
     - image.style.medium
@@ -44,5 +45,6 @@ content:
     weight: 2
     region: content
 hidden:
+  field_original_reference_id: true
   field_prize_fund: true
   field_website: true

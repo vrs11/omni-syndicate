@@ -5,6 +5,7 @@ dependencies:
   config:
     - field.field.node.federation.body
     - field.field.node.federation.field_logo
+    - field.field.node.federation.field_original_reference_id
     - field.field.node.federation.field_prize_fund
     - field.field.node.federation.field_website
     - image.style.medium
@@ -37,6 +38,14 @@ content:
         attribute: lazy
     third_party_settings: {  }
     weight: 0
+    region: content
+  field_original_reference_id:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 13
     region: content
   field_prize_fund:
     type: entity_reference_revisions_entity_view

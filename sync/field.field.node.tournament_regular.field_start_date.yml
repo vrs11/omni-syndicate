@@ -1,0 +1,21 @@
+uuid: 5bd1a9fc-7ecd-492d-af69-626b49fe29a4
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_start_date
+    - node.type.tournament_regular
+  module:
+    - datetime
+id: node.tournament_regular.field_start_date
+field_name: field_start_date
+entity_type: node
+bundle: tournament_regular
+label: 'Start date'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: datetime

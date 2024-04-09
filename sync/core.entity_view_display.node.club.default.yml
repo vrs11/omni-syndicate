@@ -4,9 +4,11 @@ status: true
 dependencies:
   config:
     - field.field.node.club.body
+    - field.field.node.club.feeds_item
     - field.field.node.club.field_address
     - field.field.node.club.field_email
     - field.field.node.club.field_logo
+    - field.field.node.club.field_parser_source
     - field.field.node.club.field_phone
     - field.field.node.club.field_website
     - image.style.medium
@@ -65,6 +67,14 @@ content:
     third_party_settings: {  }
     weight: 0
     region: content
+  field_parser_source:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 8
+    region: content
   field_phone:
     type: mobile_number_international
     label: inline
@@ -90,4 +100,5 @@ content:
     third_party_settings: {  }
     weight: 7
     region: content
-hidden: {  }
+hidden:
+  feeds_item: true

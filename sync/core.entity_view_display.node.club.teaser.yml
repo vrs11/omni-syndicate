@@ -5,9 +5,11 @@ dependencies:
   config:
     - core.entity_view_mode.node.teaser
     - field.field.node.club.body
+    - field.field.node.club.feeds_item
     - field.field.node.club.field_address
     - field.field.node.club.field_email
     - field.field.node.club.field_logo
+    - field.field.node.club.field_parser_source
     - field.field.node.club.field_phone
     - field.field.node.club.field_website
     - image.style.thumbnail
@@ -47,8 +49,10 @@ content:
     region: content
 hidden:
   federation_club_stated_entity_reference: true
+  feeds_item: true
   field_address: true
   field_email: true
+  field_parser_source: true
   field_phone: true
   field_website: true
   links: true

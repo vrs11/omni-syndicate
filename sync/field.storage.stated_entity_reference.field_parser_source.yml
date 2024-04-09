@@ -1,0 +1,21 @@
+uuid: a047f5d0-b8a9-4fd3-aa4f-0e082f04414b
+langcode: en
+status: true
+dependencies:
+  module:
+    - stated_entity_reference
+id: stated_entity_reference.field_parser_source
+field_name: field_parser_source
+entity_type: stated_entity_reference
+type: string
+settings:
+  max_length: 255
+  case_sensitive: false
+  is_ascii: false
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

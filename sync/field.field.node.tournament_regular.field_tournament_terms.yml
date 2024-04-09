@@ -1,0 +1,28 @@
+uuid: dc5226ee-ae01-4f94-aada-dc002ec451af
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_tournament_terms
+    - filter.format.basic_html
+    - filter.format.plain_text
+    - filter.format.restricted_html
+    - node.type.tournament_regular
+  module:
+    - text
+id: node.tournament_regular.field_tournament_terms
+field_name: field_tournament_terms
+entity_type: node
+bundle: tournament_regular
+label: Terms
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  allowed_formats:
+    - basic_html
+    - restricted_html
+    - plain_text
+field_type: text_long

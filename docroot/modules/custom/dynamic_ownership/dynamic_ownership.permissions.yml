@@ -6,20 +6,29 @@ administer user ownership:
   description: 'Allow to access the administration form to configure User ownership entities.'
   restrict access: true
 
-delete user ownership:
+delete user_ownership:
   title: 'Delete user ownership'
 
-edit user ownership:
+delete own user_ownership:
+  title: 'Delete own user ownership'
+
+edit user_ownership:
   title: 'Edit user ownership'
 
-view active user ownership:
+view active user_ownership:
   title: 'View active user ownership'
 
-view any user ownership:
+view any user_ownership:
   title: 'View any user ownership'
 
-view users user ownership:
-  title: 'View the list of user ownership for a user'
+edit any user_ownership field:
+  title: 'Edit any user ownership field'
+
+view own user_ownership:
+  title: 'View own user ownerships'
+
+edit own user_ownership:
+  title: 'Edit own user ownerships'
 
 permission_callbacks:
   - \Drupal\dynamic_ownership\UserOwnershipPermissions::generatePermissions

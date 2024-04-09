@@ -1,0 +1,19 @@
+uuid: 066fe5cc-265a-4140-b17d-3f0183b4f507
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_parser_source
+    - node.type.club
+id: node.club.field_parser_source
+field_name: field_parser_source
+entity_type: node
+bundle: club
+label: Source
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

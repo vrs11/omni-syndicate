@@ -1,0 +1,19 @@
+uuid: 3bbfa760-e1e2-47d4-b01a-8e8eb2dff89d
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_original_reference_id
+    - node.type.tournament_regular
+id: node.tournament_regular.field_original_reference_id
+field_name: field_original_reference_id
+entity_type: node
+bundle: tournament_regular
+label: Reference
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

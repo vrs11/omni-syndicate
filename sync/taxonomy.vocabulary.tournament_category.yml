@@ -1,0 +1,8 @@
+uuid: 63e67660-1018-4a87-a266-2f10a0ea9f85
+langcode: en
+status: true
+dependencies: {  }
+name: 'Tournament category'
+vid: tournament_category
+description: ''
+weight: 0

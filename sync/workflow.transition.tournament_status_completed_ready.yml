@@ -1,0 +1,13 @@
+uuid: 527a93cf-7a13-477e-a4c9-c9d0ff61d8c9
+langcode: en
+status: true
+dependencies:
+  config:
+    - workflow.state.tournament_status_completed
+    - workflow.state.tournament_status_ready
+id: tournament_status_completed_ready
+label: null
+module: workflow
+from_sid: tournament_status_completed
+to_sid: tournament_status_ready
+roles: {  }

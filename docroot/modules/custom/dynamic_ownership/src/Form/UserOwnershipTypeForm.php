@@ -192,6 +192,13 @@ class UserOwnershipTypeForm extends EntityForm {
 
     $this->addRolesSettings($form, $form_state);
 
+    $form['entity_owner'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Make a user an owner of an entity?'),
+      '#default_value' => $user_ownership_type->isMakingEntityOwner(),
+      '#description' => $this->t("Use this type of relations for claims, in case of many."),
+    ];
+
     $form['default_relation'] = [
       '#type' => 'checkbox',
       '#title' => $this->t('Is Default?'),

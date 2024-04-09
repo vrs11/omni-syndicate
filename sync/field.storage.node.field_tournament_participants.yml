@@ -1,0 +1,20 @@
+uuid: cfe9c7d2-6346-4ec5-b173-4c0b1daad530
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+    - user
+id: node.field_tournament_participants
+field_name: field_tournament_participants
+entity_type: node
+type: entity_reference
+settings:
+  target_type: user
+module: core
+locked: false
+cardinality: -1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

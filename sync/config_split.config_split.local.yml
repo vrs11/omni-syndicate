@@ -12,6 +12,7 @@ storage: folder
 folder: ../sync-split/local
 module:
   devel: 0
+  entity_update: 0
   twig_xdebug: 0
 theme: {  }
 complete_list: {  }

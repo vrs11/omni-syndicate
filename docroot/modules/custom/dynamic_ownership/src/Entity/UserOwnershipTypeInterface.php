@@ -92,6 +92,14 @@ interface UserOwnershipTypeInterface extends ConfigEntityInterface {
   public function addTargetRoles($value);
 
   /**
+   * Became the entity owner or not.
+   *
+   * @return bool
+   *   The state of the transition.
+   */
+  public function isMakingEntityOwner();
+
+  /**
    * Returns the state of defaultness for the type.
    *
    * @return bool

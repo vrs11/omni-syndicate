@@ -4,8 +4,22 @@ status: true
 dependencies:
   config:
     - field.field.node.tournament_regular.body
+    - field.field.node.tournament_regular.feeds_item
+    - field.field.node.tournament_regular.field_address
+    - field.field.node.tournament_regular.field_original_reference_id
+    - field.field.node.tournament_regular.field_participants_type
+    - field.field.node.tournament_regular.field_start_date
+    - field.field.node.tournament_regular.field_tournament_category
+    - field.field.node.tournament_regular.field_tournament_duration
+    - field.field.node.tournament_regular.field_tournament_fee
+    - field.field.node.tournament_regular.field_tournament_participants
+    - field.field.node.tournament_regular.field_tournament_players_number
+    - field.field.node.tournament_regular.field_tournament_terms
+    - field.field.node.tournament_regular.field_tournament_type
     - node.type.tournament_regular
   module:
+    - address
+    - datetime
     - text
     - user
 id: node.tournament_regular.default
@@ -18,11 +32,111 @@ content:
     label: hidden
     settings: {  }
     third_party_settings: {  }
-    weight: 101
+    weight: 4
+    region: content
+  club_tournament_stated_entity_reference:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  federation_tournament_stated_entity_reference:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  field_address:
+    type: address_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 2
+    region: content
+  field_original_reference_id:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 13
+    region: content
+  field_participants_type:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 7
+    region: content
+  field_start_date:
+    type: datetime_default
+    label: above
+    settings:
+      timezone_override: ''
+      format_type: medium
+    third_party_settings: {  }
+    weight: 5
+    region: content
+  field_tournament_category:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 10
+    region: content
+  field_tournament_duration:
+    type: number_integer
+    label: above
+    settings:
+      thousand_separator: ''
+      prefix_suffix: true
+    third_party_settings: {  }
+    weight: 6
+    region: content
+  field_tournament_fee:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 11
+    region: content
+  field_tournament_participants:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 12
+    region: content
+  field_tournament_players_number:
+    type: number_integer
+    label: above
+    settings:
+      thousand_separator: ''
+      prefix_suffix: true
+    third_party_settings: {  }
+    weight: 9
+    region: content
+  field_tournament_terms:
+    type: text_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 14
+    region: content
+  field_tournament_type:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 8
     region: content
   links:
     settings: {  }
     third_party_settings: {  }
-    weight: 100
+    weight: 3
     region: content
-hidden: {  }
+hidden:
+  feeds_item: true

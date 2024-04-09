@@ -29,7 +29,9 @@ use Drupal\Core\Config\Entity\ConfigEntityBundleBase;
  *      "target_bundle",
  *      "conflicts_with",
  *      "limit",
- *      "target_roles"
+ *      "target_roles",
+ *      "entity_owner",
+ *      "default_relation"
  *   },
  *   config_prefix = "user_ownership_type",
  *   admin_permission = "administer site configuration",
@@ -91,6 +93,13 @@ class UserOwnershipType extends ConfigEntityBundleBase implements UserOwnershipT
    * @var array
    */
   protected $target_roles;
+
+  /**
+   * Became the entity owner or not.
+   *
+   * @var bool
+   */
+  protected $entity_owner;
 
   /**
    * Is default for claims or not.
@@ -224,6 +233,16 @@ class UserOwnershipType extends ConfigEntityBundleBase implements UserOwnershipT
     }
 
     return $this;
+  }
+
+  /**
+   * Became the entity owner or not.
+   *
+   * @return bool
+   *   The state of the transition.
+   */
+  public function isMakingEntityOwner() {
+    return $this->entity_owner;
   }
 
   /**

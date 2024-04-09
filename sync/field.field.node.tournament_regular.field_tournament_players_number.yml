@@ -1,0 +1,23 @@
+uuid: 5c5ebd18-8e28-4b47-8671-23a43a5ca499
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_tournament_players_number
+    - node.type.tournament_regular
+id: node.tournament_regular.field_tournament_players_number
+field_name: field_tournament_players_number
+entity_type: node
+bundle: tournament_regular
+label: 'Players number'
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  min: 10
+  max: null
+  prefix: ''
+  suffix: People
+field_type: integer

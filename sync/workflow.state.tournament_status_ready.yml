@@ -1,0 +1,12 @@
+uuid: 808c6f31-1822-41dd-a02f-3c5c0621c382
+langcode: en
+status: true
+dependencies:
+  config:
+    - workflow.workflow.tournament_status
+id: tournament_status_ready
+label: Ready
+module: workflow
+wid: tournament_status
+weight: -8
+sysid: 0

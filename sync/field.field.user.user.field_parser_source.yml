@@ -1,0 +1,20 @@
+uuid: 159e8edf-7167-452b-8222-d54e3ccc239f
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.user.field_parser_source
+  module:
+    - user
+id: user.user.field_parser_source
+field_name: field_parser_source
+entity_type: user
+bundle: user
+label: Source
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

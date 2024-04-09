@@ -5,6 +5,7 @@ dependencies:
   config:
     - field.field.node.federation.body
     - field.field.node.federation.field_logo
+    - field.field.node.federation.field_original_reference_id
     - field.field.node.federation.field_prize_fund
     - field.field.node.federation.field_website
     - image.style.thumbnail
@@ -43,6 +44,14 @@ content:
     settings:
       progress_indicator: throbber
       preview_image_style: thumbnail
+    third_party_settings: {  }
+  field_original_reference_id:
+    type: string_textfield
+    weight: 26
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
     third_party_settings: {  }
   field_prize_fund:
     type: paragraphs

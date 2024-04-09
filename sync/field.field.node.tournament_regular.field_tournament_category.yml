@@ -1,0 +1,29 @@
+uuid: ffedc775-2a12-45b0-9c42-69c1fb4877d6
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_tournament_category
+    - node.type.tournament_regular
+    - taxonomy.vocabulary.tournament_category
+id: node.tournament_regular.field_tournament_category
+field_name: field_tournament_category
+entity_type: node
+bundle: tournament_regular
+label: Category
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      tournament_category: tournament_category
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

@@ -120,7 +120,13 @@ class StatedEntityReferenceType extends ConfigEntityBundleBase implements Stated
    */
   public function getTargetBundleLable() {
     [$entity_type, $type] = explode(':', $this->target_bundle);
-    $bundle_entity_type = $this->entityTypeManager()->getDefinition($entity_type)->get('bundle_entity_type');
+    $entity_definition = $this->entityTypeManager()->getDefinition($entity_type);
+
+    if (!$entity_definition->hasKey('bundle')) {
+      return $entity_definition->getLabel();
+    }
+
+    $bundle_entity_type = $entity_definition->get('bundle_entity_type');
     $class = $this->entityTypeManager()->getStorage($bundle_entity_type)->getEntityClass();
     $entity_type = $class::load($type);
     return $entity_type->label();
@@ -134,8 +140,14 @@ class StatedEntityReferenceType extends ConfigEntityBundleBase implements Stated
    */
   public function getSourceBundleLable() {
     [$entity_type, $type] = explode(':', $this->source_bundle);
-    $bundle_entity_type = $this->entityTypeManager()->getDefinition($entity_type)->get('bundle_entity_type');
-    $class = $this->entityTypeManager()->getStorage($bundle_entity_type)->getEntityClass();
+    $entity_definition = $this->entityTypeManager()->getDefinition($entity_type);
+
+    if (!$entity_definition->hasKey('bundle')) {
+      return $entity_definition->getLabel();
+    }
+
+    $bundle_entity_type = $entity_definition->get('bundle_entity_type');
+    $class = $this->entityTypeManager()->getStorage($bundle_entity_type ?? $type)->getEntityClass();
     $entity_type = $class::load($type);
     return $entity_type->label();
   }

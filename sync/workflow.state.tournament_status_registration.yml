@@ -1,0 +1,12 @@
+uuid: 16268cab-54e0-4352-a27c-4906b463333f
+langcode: en
+status: true
+dependencies:
+  config:
+    - workflow.workflow.tournament_status
+id: tournament_status_registration
+label: Registration
+module: workflow
+wid: tournament_status
+weight: -8
+sysid: 0

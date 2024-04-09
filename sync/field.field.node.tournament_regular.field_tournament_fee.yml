@@ -1,0 +1,19 @@
+uuid: 204404e2-d08d-4d03-819a-119ed1e909f4
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_tournament_fee
+    - node.type.tournament_regular
+id: node.tournament_regular.field_tournament_fee
+field_name: field_tournament_fee
+entity_type: node
+bundle: tournament_regular
+label: 'Participation Fee'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

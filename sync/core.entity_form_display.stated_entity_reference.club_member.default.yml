@@ -1,0 +1,60 @@
+uuid: a03d882e-4f72-4ec0-861d-c1396da6f821
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.stated_entity_reference.club_member.field_parser_source
+    - stated_entity_reference.stated_entity_reference_type.club_member
+  module:
+    - dynamic_entity_reference
+id: stated_entity_reference.club_member.default
+targetEntityType: stated_entity_reference
+bundle: club_member
+mode: default
+content:
+  created:
+    type: datetime_timestamp
+    weight: 20
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_parser_source:
+    type: string_textfield
+    weight: 21
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  source_entity_id:
+    type: dynamic_entity_reference_default
+    weight: 5
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  target_entity_id:
+    type: dynamic_entity_reference_default
+    weight: 5
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  uid:
+    type: entity_reference_autocomplete
+    weight: 15
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+hidden:
+  state: true

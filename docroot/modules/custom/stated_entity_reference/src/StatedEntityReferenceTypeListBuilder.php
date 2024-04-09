@@ -20,6 +20,8 @@ final class StatedEntityReferenceTypeListBuilder extends ConfigEntityListBuilder
    */
   public function buildHeader(): array {
     $header['label'] = $this->t('Label');
+    $header['source'] = $this->t('Source');
+    $header['target'] = $this->t('Target');
     return $header + parent::buildHeader();
   }
 
@@ -27,7 +29,9 @@ final class StatedEntityReferenceTypeListBuilder extends ConfigEntityListBuilder
    * {@inheritdoc}
    */
   public function buildRow(EntityInterface $entity): array {
-    $row['label'] = $entity->label();
+    $row['label'] = "{$entity->label()} ({$entity->getOriginalId()})";
+    $row['source'] = $entity->getSourceBundle();
+    $row['target'] = $entity->getTargetBundle();
     return $row + parent::buildRow($entity);
   }
 

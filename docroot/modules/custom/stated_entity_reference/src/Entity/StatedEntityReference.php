@@ -70,6 +70,13 @@ class StatedEntityReference extends ContentEntityBase implements StatedEntityRef
   /**
    * {@inheritdoc}
    */
+  public function label() {
+    return $this->getSourceEntity()->label() . " > " . $this->getTargetEntity()->label();
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   public function preSave(EntityStorageInterface $storage): void {
     parent::preSave($storage);
     if (!$this->getOwnerId()) {

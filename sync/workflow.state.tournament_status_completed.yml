@@ -1,0 +1,12 @@
+uuid: 58d027a4-70b3-47b0-8225-100f0d11be01
+langcode: en
+status: true
+dependencies:
+  config:
+    - workflow.workflow.tournament_status
+id: tournament_status_completed
+label: Completed
+module: workflow
+wid: tournament_status
+weight: -8
+sysid: 0

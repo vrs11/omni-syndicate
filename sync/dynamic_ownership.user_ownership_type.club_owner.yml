@@ -1,4 +1,4 @@
-uuid: 5abc2d80-7b1e-480c-add9-6901a090ba28
+uuid: 5e90190d-4e61-472b-a801-4c1859248d65
 langcode: en
 status: true
 dependencies: {  }
@@ -6,6 +6,8 @@ id: club_owner
 label: 'Club owner'
 target_bundle: 'node:club'
 conflicts_with: {  }
-limit: null
+limit: 0
 target_roles:
   - club_owner
+entity_owner: true
+default_relation: false

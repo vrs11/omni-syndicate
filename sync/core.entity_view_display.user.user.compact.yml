@@ -11,6 +11,7 @@ dependencies:
     - field.field.user.user.field_home_region
     - field.field.user.user.field_lastname
     - field.field.user.user.field_nickname
+    - field.field.user.user.field_parser_source
     - field.field.user.user.field_phone
     - image.style.medium
   module:
@@ -55,5 +56,6 @@ hidden:
   field_firstname: true
   field_home_region: true
   field_lastname: true
+  field_parser_source: true
   field_phone: true
   member_for: true

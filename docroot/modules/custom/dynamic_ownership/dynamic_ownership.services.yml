@@ -5,11 +5,6 @@ services:
       - '@entity_type.manager'
       - '@current_user'
 
-  dynamic_ownership.views.access_checker:
-    class: Drupal\dynamic_ownership\ViewsAccessChecker
-    arguments:
-      - '@current_route_match'
-
   dynamic_ownership.access.checker:
     class: Drupal\dynamic_ownership\TwigExtension\AccessChecker
     tags:
@@ -21,3 +16,11 @@ services:
     class: Drupal\dynamic_ownership\EventSubscriber\DynamicOwnershipBasics
     tags:
       - { name: 'event_subscriber' }
+
+  dynamic_ownership.auth_event_subscriber:
+    class: Drupal\dynamic_ownership\EventSubscriber\DynamicOwnershipAuthenticationSubscriber
+    arguments:
+     - '@entity_type.manager'
+     - '@current_user'
+    tags:
+      - { name: event_subscriber }

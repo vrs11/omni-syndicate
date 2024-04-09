@@ -22,6 +22,9 @@ dynamic_ownership.user_ownership_type.*:
     target_roles:
       label: 'Roles'
       type: sequence
+    entity_owner:
+      type: boolean
+      label: 'This relation makes the user an owner of the entity on access check'
     default_relation:
       type: boolean
       label: 'Use this type of relations for claims, in case of many'

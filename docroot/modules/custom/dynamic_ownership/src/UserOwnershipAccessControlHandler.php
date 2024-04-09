@@ -9,6 +9,7 @@ use Drupal\Core\Field\FieldItemListInterface;
 use Drupal\Core\Session\AccountInterface;
 use Drupal\Core\Access\AccessResult;
 use Drupal\dynamic_ownership\Entity\UserOwnership;
+use Drupal\dynamic_ownership\Entity\UserOwnershipInterface;
 
 /**
  * Access controller for the User ownership entity.
@@ -16,33 +17,6 @@ use Drupal\dynamic_ownership\Entity\UserOwnership;
  * @see \Drupal\dynamic_ownership\Entity\UserOwnership.
  */
 class UserOwnershipAccessControlHandler extends EntityAccessControlHandler {
-
-  /**
-   * Gets ownership entity status.
-   *
-   * @param \Drupal\Core\Session\AccountInterface $account
-   *   The user session for which to check access.
-   * @param mixed $entity
-   *   User ownership entity.
-   */
-  protected function getOwnershipStatus(AccountInterface $account, $entity) {
-    $entity_status = [
-      'new' => FALSE,
-      'scope' => 'any',
-      'roles' => [],
-    ];
-    $entity_status['roles'] = $account->getRoles();
-    if (empty($entity->get('oid')->value)) {
-      $entity_status['new'] = TRUE;
-    } elseif ($entity->get('user_id')->target_id == $account->id()) {
-      $entity_status['scope'] = 'own';
-      (!empty($role = $entity->get('role_id'))) && ($entity_status['roles'][] = $role->target_id);
-    }
-
-    $entity_status['roles'] = array_unique($entity_status['roles']);
-
-    return $entity_status;
-  }
 
   /**
    * Default field access as determined by this access control handler.
@@ -70,113 +44,39 @@ class UserOwnershipAccessControlHandler extends EntityAccessControlHandler {
       return parent::checkFieldAccess($operation, $field_definition, $account, $items);
     }
 
-    $entity = $items->getParent();
-    $entity_status = $this->getOwnershipStatus($account, $entity);
-
-    return $this->ownershipFieldAccessCheck($operation, $field_definition, $account, $items, $entity_status);
-  }
-
-  /**
-   * {@inheritDoc}
-   */
-  protected function ownershipFieldAccessCheck(
-    $operation,
-    FieldDefinitionInterface $field_definition,
-    AccountInterface $account,
-    FieldItemListInterface $items,
-    $entity_status
-  ) {
-    if ($entity_status['new']) {
-      return parent::checkFieldAccess($operation, $field_definition, $account, $items);
+    if ($account->hasPermission("{$operation} any user_ownership field")) {
+      return AccessResult::allowed();
     }
 
+    $entity = $items->getParent();
     $field = UserOwnership::DEFAULT_FIELDS[$field_definition->getName()];
     $type_id = $items->getParent()->get('type')->target_id;
 
-    return $this->checkPermissions(
-      $items->getParent(),
-      "$operation ownership field $field",
-      "$operation {$entity_status['scope']} ownership: $type_id field $field",
-      $entity_status
-    );
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  protected function checkPermissions($entity, $common_permission, $permission, $entity_status) {
-    $access = AccessResult::allowedIf(user_ownership_access_check($common_permission, $entity_status['roles']));
-    if (!$access->isAllowed() && user_ownership_access_check($permission, $entity_status['roles'])) {
-      $access = $access->orIf(AccessResult::allowed()->cachePerUser()->addCacheableDependency($entity));
+    if (empty($entity->get('oid')->value)) {
+      return AccessResult::allowedIfHasPermissions($account, [
+        "{$operation} new user_ownership: field $field",
+        "{$operation} new user_ownership: $type_id field $field",
+      ]);
     }
 
-    return $access;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  protected function checkEntityPermissions($access, $entity, $permissions, $entity_status) {
-    foreach ($permissions as $permission => $check) {
-      if (!$access->isAllowed() && user_ownership_access_check($permission, $entity_status['roles'])) {
-        $access = $access->orIf(AccessResult::allowedIf($check)->cachePerUser()->addCacheableDependency($entity));
-      }
-    }
-
-    return $access;
+    $isOwn = $entity->get('user_id')->target_id == $account->id();
+    return AccessResult::allowedIfHasPermissions($account, array_keys(array_filter([
+      "{$operation} any user_ownership field" => TRUE,
+      "{$operation} user_ownership field $field" => TRUE,
+      "{$operation} any user_ownership: $type_id field" => TRUE,
+      "{$operation} own user_ownership: $type_id field" => $isOwn,
+      "{$operation} any user_ownership: $type_id field $field" => TRUE,
+      "{$operation} own user_ownership: $type_id field $field" => $isOwn,
+    ])));
   }
 
   /**
    * {@inheritdoc}
    */
   protected function checkAccess(EntityInterface $entity, $operation, AccountInterface $account) {
-    /** @var \Drupal\dynamic_ownership\Entity\UserOwnershipInterface $entity */
-
-    $access = AccessResult::neutral();
-    $entity_status = $this->getOwnershipStatus($account, $entity);
-    $type_id = $entity->get('type')->target_id;
-
-    switch ($operation) {
-
-      case 'view':
-        return $this->checkEntityPermissions(
-          $access,
-          $entity,
-          [
-            'view any user ownership' => TRUE,
-            'view active user ownership' => TRUE,
-            "view any ownership: $type_id" => TRUE,
-            "view own ownership: $type_id" => $entity_status['scope'] == 'own',
-          ],
-          $entity_status
-        );
-
-      case 'update':
-        return $this->checkEntityPermissions(
-          $access,
-          $entity,
-          [
-            'edit any user ownership' => TRUE,
-            'edit active user ownership' => TRUE,
-            "edit any ownership: $type_id" => TRUE,
-            "edit own ownership: $type_id" => $entity_status['scope'] == 'own',
-          ],
-          $entity_status
-        );
-
-      case 'delete':
-        return $this->checkEntityPermissions(
-          $access,
-          $entity,
-          [
-            'delete any user ownership' => TRUE,
-            'delete active user ownership' => TRUE,
-            "delete any ownership: $type_id" => TRUE,
-            "delete own ownership: $type_id" => $entity_status['scope'] == 'own',
-          ],
-          $entity_status
-        );
-
+    $function = ucwords($operation) . ucwords(__FUNCTION__);
+    if (method_exists($this, $function)) {
+      return $this->$function($entity, $account);
     }
 
     // Unknown operation, no opinion.
@@ -186,8 +86,58 @@ class UserOwnershipAccessControlHandler extends EntityAccessControlHandler {
   /**
    * {@inheritdoc}
    */
+  protected function ViewCheckAccess(UserOwnershipInterface $entity, AccountInterface $account) {
+    $isOwn = $entity->get('user_id')->target_id == $account->id();
+    $isActive = $entity->getState() == 'active';
+    $type = $entity->getEntityTypeId();
+
+    return AccessResult::allowedIfHasPermissions($account, array_keys(array_filter([
+      'view any user_ownership' => TRUE,
+      'view own user_ownership' => $isOwn,
+      "view any user_ownership: {$type}" => TRUE,
+      "view active user_ownership: {$type}" => $isActive,
+      "view own user_ownership: {$type}" => $isOwn,
+    ])));
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  protected function UpdateCheckAccess(UserOwnershipInterface $entity, AccountInterface $account) {
+    $isOwn = $entity->get('user_id')->target_id == $account->id();
+    $type = $entity->getEntityTypeId();
+
+    return AccessResult::allowedIfHasPermissions($account, array_keys(array_filter([
+      'edit user_ownership' => TRUE,
+      'edit own user_ownership' => $isOwn,
+      "edit any user_ownership: {$type}" => TRUE,
+      "edit own user_ownership: {$type}" => $isOwn,
+    ])));
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  protected function DeleteCheckAccess(UserOwnershipInterface $entity, AccountInterface $account) {
+    $isOwn = $entity->get('user_id')->target_id == $account->id();
+    $type = $entity->getEntityTypeId();
+
+    return AccessResult::allowedIfHasPermissions($account, array_keys(array_filter([
+      'delete user_ownership' => TRUE,
+      'delete own user_ownership' => $isOwn,
+      "delete any user_ownership: {$type}" => TRUE,
+      "delete own user_ownership: {$type}" => $isOwn,
+    ])));
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   protected function checkCreateAccess(AccountInterface $account, array $context, $entity_bundle = NULL) {
-    return AccessResult::allowedIfHasPermission($account, 'add user ownership entities');
+    return AccessResult::allowedIfHasPermissions($account, [
+      'add user ownership',
+      "create user_ownership: $entity_bundle",
+    ]);
   }
 
 }

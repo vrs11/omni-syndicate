@@ -1,0 +1,19 @@
+uuid: 91769421-6474-4a54-bdae-8a3c8b88c895
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.stated_entity_reference.field_parser_source
+    - stated_entity_reference.stated_entity_reference_type.club_member
+id: stated_entity_reference.club_member.field_parser_source
+field_name: field_parser_source
+entity_type: stated_entity_reference
+bundle: club_member
+label: 'Parser source'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

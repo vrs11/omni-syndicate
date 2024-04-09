@@ -2,12 +2,19 @@ uuid: 1ba04765-5d85-48f9-a165-04efa64c97f6
 langcode: en
 status: true
 dependencies:
+  config:
+    - node.type.club
   module:
+    - node
     - stated_entity_reference
+    - workflow
 id: club_owner
 label: 'Club owner'
 weight: 4
 is_admin: null
 permissions:
+  - 'create tournament_status workflow_transition'
+  - 'edit own club content'
   - 'view own stated_entity_reference'
+  - 'view own unpublished content'
   - 'view referenced stated_entity_reference'

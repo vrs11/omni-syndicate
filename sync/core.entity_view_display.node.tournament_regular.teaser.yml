@@ -5,6 +5,18 @@ dependencies:
   config:
     - core.entity_view_mode.node.teaser
     - field.field.node.tournament_regular.body
+    - field.field.node.tournament_regular.feeds_item
+    - field.field.node.tournament_regular.field_address
+    - field.field.node.tournament_regular.field_original_reference_id
+    - field.field.node.tournament_regular.field_participants_type
+    - field.field.node.tournament_regular.field_start_date
+    - field.field.node.tournament_regular.field_tournament_category
+    - field.field.node.tournament_regular.field_tournament_duration
+    - field.field.node.tournament_regular.field_tournament_fee
+    - field.field.node.tournament_regular.field_tournament_participants
+    - field.field.node.tournament_regular.field_tournament_players_number
+    - field.field.node.tournament_regular.field_tournament_terms
+    - field.field.node.tournament_regular.field_tournament_type
     - node.type.tournament_regular
   module:
     - text
@@ -22,9 +34,31 @@ content:
     third_party_settings: {  }
     weight: 101
     region: content
+  club_tournament_stated_entity_reference:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  federation_tournament_stated_entity_reference:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 0
+    region: content
   links:
     settings: {  }
     third_party_settings: {  }
     weight: 100
     region: content
-hidden: {  }
+hidden:
+  feeds_item: true
+  field_address: true
+  field_original_reference_id: true
+  field_participants_type: true
+  field_start_date: true
+  field_tournament_category: true
+  field_tournament_duration: true
+  field_tournament_fee: true
+  field_tournament_participants: true
+  field_tournament_players_number: true
+  field_tournament_terms: true
+  field_tournament_type: true

@@ -1,8 +1,0 @@
-uuid: acf479e9-6a0c-4d25-b8be-77734e9153f2
-langcode: en
-status: true
-dependencies: {  }
-id: federation_club
-label: Federation
-source_bundle: 'node:club'
-target_bundle: 'node:federation'

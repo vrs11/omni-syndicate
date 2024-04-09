@@ -44,6 +44,6 @@ settings:
     locality:
       override: required
     administrativeArea:
-      override: required
+      override: optional
   fields: {  }
 field_type: address

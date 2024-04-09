@@ -1,0 +1,8 @@
+uuid: 8624f2aa-885b-4e4f-ac5a-9cb046f80f4d
+langcode: en
+status: true
+dependencies: {  }
+id: club_member
+label: 'Club member'
+source_bundle: user
+target_bundle: 'node:club'

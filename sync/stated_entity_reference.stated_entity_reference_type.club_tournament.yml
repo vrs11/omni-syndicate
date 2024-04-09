@@ -1,8 +1,0 @@
-uuid: 8e51ea9a-ac85-47b6-936c-af0aae60d0ca
-langcode: en
-status: true
-dependencies: {  }
-id: club_tournament
-label: Club
-source_bundle: 'node:tournament_regular'
-target_bundle: 'node:club'

@@ -1,0 +1,13 @@
+uuid: 0d74e539-9c91-4cdc-9e8d-85159145d74a
+langcode: en
+status: true
+dependencies:
+  config:
+    - workflow.state.tournament_status_creation
+    - workflow.state.tournament_status_registration
+id: tournament_status_creation_registration
+label: null
+module: workflow
+from_sid: tournament_status_creation
+to_sid: tournament_status_registration
+roles: {  }

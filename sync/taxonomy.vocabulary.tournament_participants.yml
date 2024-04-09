@@ -1,0 +1,8 @@
+uuid: cbf0994f-5ec1-4f0c-bd5b-e51f49735f2f
+langcode: en
+status: true
+dependencies: {  }
+name: 'Tournament participants'
+vid: tournament_participants
+description: ''
+weight: 0

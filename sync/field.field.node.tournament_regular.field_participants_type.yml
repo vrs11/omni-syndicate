@@ -1,0 +1,29 @@
+uuid: 6db7f9f2-b86a-461f-a413-9b18d9884de9
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_participants_type
+    - node.type.tournament_regular
+    - taxonomy.vocabulary.tournament_participants
+id: node.tournament_regular.field_participants_type
+field_name: field_participants_type
+entity_type: node
+bundle: tournament_regular
+label: Participation
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      tournament_participants: tournament_participants
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

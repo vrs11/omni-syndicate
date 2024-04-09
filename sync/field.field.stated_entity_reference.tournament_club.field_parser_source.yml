@@ -1,0 +1,19 @@
+uuid: 236972e7-e321-4242-90af-ce0f1175f5dc
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.stated_entity_reference.field_parser_source
+    - stated_entity_reference.stated_entity_reference_type.tournament_club
+id: stated_entity_reference.tournament_club.field_parser_source
+field_name: field_parser_source
+entity_type: stated_entity_reference
+bundle: tournament_club
+label: 'Parser source'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

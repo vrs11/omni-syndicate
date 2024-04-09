@@ -1,0 +1,39 @@
+uuid: dd0230dd-8d33-48d0-a770-b44f09590f19
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.tournament_regular
+  module:
+    - node
+    - osy_tournament_parser
+label: Tournaments
+id: tournaments
+description: ''
+help: ''
+import_period: -1
+fetcher: tournament_fetcher
+fetcher_configuration:
+  auto_detect_feeds: 0
+  use_pubsubhubbub: 0
+  always_download: 1
+  fallback_hub: ''
+  request_timeout: '300'
+parser: osy_tournament_parser
+parser_configuration: {  }
+processor: 'entity:node:tournament'
+processor_configuration:
+  values:
+    type: tournament_regular
+  langcode: en
+  insert_new: 1
+  update_existing: 2
+  update_non_existent: _keep
+  skip_hash_check: false
+  authorize: false
+  revision: false
+  expire: 86400
+  owner_feed_author: false
+  owner_id: 0
+custom_sources: {  }
+mappings: {  }

@@ -1,0 +1,12 @@
+uuid: 472b18a7-1994-41eb-8ed2-85db89848fd7
+langcode: en
+status: true
+dependencies:
+  config:
+    - workflow.workflow.tournament_status
+id: tournament_status_creation
+label: Creation
+module: workflow
+wid: tournament_status
+weight: -11
+sysid: 1

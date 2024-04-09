@@ -18,7 +18,7 @@ final class OsyTournamentParserPluginManager extends DefaultPluginManager {
    * Constructs the object.
    */
   public function __construct(\Traversable $namespaces, CacheBackendInterface $cache_backend, ModuleHandlerInterface $module_handler) {
-    parent::__construct('Plugin/OsyTournamentParser', $namespaces, $module_handler, OsyTournamentParserInterface::class, OsyTournamentParser::class);
+    parent::__construct('Plugin/OsyTournamentParser', $namespaces, $module_handler, OsyTournamentParserPluginInterface::class, OsyTournamentParser::class);
     $this->alterInfo('osy_tournament_parser_info');
     $this->setCacheBackend($cache_backend, 'osy_tournament_parser_plugins');
   }

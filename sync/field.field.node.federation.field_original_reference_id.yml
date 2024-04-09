@@ -1,0 +1,19 @@
+uuid: c2dd851f-5770-4602-9ef3-d4e217816407
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_original_reference_id
+    - node.type.federation
+id: node.federation.field_original_reference_id
+field_name: field_original_reference_id
+entity_type: node
+bundle: federation
+label: Reference
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

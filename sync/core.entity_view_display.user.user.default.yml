@@ -10,6 +10,7 @@ dependencies:
     - field.field.user.user.field_home_region
     - field.field.user.user.field_lastname
     - field.field.user.user.field_nickname
+    - field.field.user.user.field_parser_source
     - field.field.user.user.field_phone
     - image.style.large
   module:
@@ -80,6 +81,14 @@ content:
       link_to_entity: false
     third_party_settings: {  }
     weight: 3
+    region: content
+  field_parser_source:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 7
     region: content
 hidden:
   field_phone: true

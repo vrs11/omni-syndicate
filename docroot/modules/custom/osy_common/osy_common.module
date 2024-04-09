@@ -1,0 +1,20 @@
+<?php
+
+use Drupal\Core\Session\AccountInterface;
+
+/**
+ * @file
+ * Primary module hooks for Common module.
+ */
+
+/**
+ * Modifies the user name format based on the given account information.
+ *
+ * @param string $name The variable that will hold the modified user name.
+ * @param AccountInterface $account The account information to base the modification on.
+ *
+ * @return void
+ */
+function osy_common_user_format_name_alter(&$name, AccountInterface $account) {
+  $name = $account->field_nickname->value ?? $account->field_firstname->value ?? $account->getEmail();
+}

@@ -30,6 +30,23 @@ function stated_entity_reference_theme(): array {
 }
 
 /**
+ * Implements hook_theme_suggestions_HOOK().
+ */
+function stated_entity_reference_theme_suggestions_stated_entity_reference(array $variables) {
+  $suggestions = [];
+  $entity = $variables['elements']['#stated_entity_reference'];
+  $sanitized_view_mode = strtr($variables['elements']['#view_mode'], '.', '_');
+
+  $suggestions[] = 'stated_entity_reference__' . $sanitized_view_mode;
+  $suggestions[] = 'stated_entity_reference__' . $entity->bundle();
+  $suggestions[] = 'stated_entity_reference__' . $entity->bundle() . '__' . $sanitized_view_mode;
+  $suggestions[] = 'stated_entity_reference__' . $entity->id();
+  $suggestions[] = 'stated_entity_reference__' . $entity->id() . '__' . $sanitized_view_mode;
+  return $suggestions;
+}
+
+
+/**
  * Prepares variables for Stated entity reference templates.
  *
  * Default template: entity-reference-state.html.twig.
@@ -77,8 +94,8 @@ function stated_entity_reference_stated_entity_reference_predelete(StatedEntityR
  */
 function stated_entity_reference_stated_entity_reference_presave(StatedEntityReferenceInterface $entity): void {
   Cache::invalidateTags([
-    $entity->getSourceEntity()->getEntityTypeId() . ':' . $entity->getSourceEntity()->id(),
-    $entity->getTargetEntity()->getEntityTypeId() . ':' . $entity->getTargetEntity()->id(),
+    $entity->getSourceEntity()?->getEntityTypeId() . ':' . $entity->getSourceEntity()?->id(),
+    $entity->getTargetEntity()?->getEntityTypeId() . ':' . $entity->getTargetEntity()?->id(),
   ]);
 }
 

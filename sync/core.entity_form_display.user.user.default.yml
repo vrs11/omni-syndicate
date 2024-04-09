@@ -10,6 +10,7 @@ dependencies:
     - field.field.user.user.field_home_region
     - field.field.user.user.field_lastname
     - field.field.user.user.field_nickname
+    - field.field.user.user.field_parser_source
     - field.field.user.user.field_phone
     - image.style.thumbnail
   module:
@@ -81,6 +82,14 @@ content:
   field_nickname:
     type: string_textfield
     weight: 3
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_parser_source:
+    type: string_textfield
+    weight: 12
     region: content
     settings:
       size: 60
