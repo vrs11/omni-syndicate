@@ -20,7 +20,6 @@ use Drupal\feeds\Utility\Feed;
 use Drupal\node\Entity\Node;
 use Drupal\osy_tournament_parser\EntityDataWrapper;
 use Drupal\osy_tournament_parser\OsyTournamentParserPluginBase;
-use Drupal\stated_entity_reference\Entity\StatedEntityReference;
 use Drupal\user\Entity\User;
 use Gt\Dom\HTMLDocument;
 use GuzzleHttp\ClientInterface;
@@ -121,7 +120,7 @@ final class MafGame extends OsyTournamentParserPluginBase implements ContainerFa
     $date = new \DateTime($tournament['start_date']);
 
     $DW = EntityDataWrapper::wrap($tournament, $entity)
-      ->set('field_original_reference_id', static::SOURCE_PREFIX . $tournament['id'], TRUE)
+      ->set('field_original_reference_id', $this->getKeyPrefix(":TOURNAMENT:{$tournament['id']}"), TRUE)
       ->set('title', 'name')
       ->set('body', 'description')
       ->set('field_tournament_duration', 'days')
@@ -155,11 +154,12 @@ final class MafGame extends OsyTournamentParserPluginBase implements ContainerFa
       $DW->set('field_tournament_participants', $users, TRUE);
     }
 
-    if (
-      !empty($entity->id())
-      && !empty($club = $this->getClub($data['club_id'], $sink))
-    ) {
+    if (!empty($club = $this->getClub($tournament['club_id'], $sink))) {
       $this->checkRelation('tournament_club', $entity, $club);
+    }
+
+    if (!empty($federation = $this->getFederation())) {
+      $this->checkRelation('tournament_federation', $entity, $federation);
     }
 
     return $entity;
@@ -173,13 +173,17 @@ final class MafGame extends OsyTournamentParserPluginBase implements ContainerFa
         'field_parser_source' => $key,
       ])
     )) {
-      return reset($users);
+      $user = reset($users);
     }
 
     if (
-      !empty($content = file_get_contents("{$sink}/user_{$id}.json"))
-      && !empty($data = Json::decode($content)['user_data'])
+      empty($content = file_get_contents("{$sink}/user_{$id}.json"))
+      || empty($data = Json::decode($content)['user_data'])
     ) {
+      return $user ?? NULL;
+    }
+
+    if (empty($user)) {
       $CC = array_search($data['user_city']['country'], CountryManager::getStandardList());
       $users = $this->entityTypeManager->getStorage('user')->loadByProperties([
         'field_nickname' => $data['nickname'],
@@ -188,32 +192,37 @@ final class MafGame extends OsyTournamentParserPluginBase implements ContainerFa
         'field_home_city.locality' => $data['user_city']['city'],
       ]);
 
-      if (!empty($users)) {
-        //TODO check if the user belongs to a club
-        return reset($users);
+      if (empty($users)) {
+        $mail = $this->random_email();
+        $user = User::create([
+          'name' => $mail,
+          'mail' => $mail,
+          'field_nickname' => $data['nickname'],
+          'field_firstname' => $data['display_name'],
+          'field_parser_source' => $key,
+          'field_home_city' => [
+            'country_code' => $CC,
+            'locality' => $data['user_city']['city'],
+          ],
+        ]);
+      } else {
+        $user = reset($users);
+        $user->field_parser_source->appendItem($key);
       }
 
-      $mail = $this->random_email();
-      $user = User::create([
-        'name' => $mail,
-        'mail' => $mail,
-        'field_nickname' => $data['nickname'],
-        'field_firstname' => $data['display_name'],
-        'field_parser_source' => $key,
-        'field_home_city' => [
-          'country_code' => $CC,
-          'locality' => $data['user_city']['city'],
-        ],
-      ]);
-
-      try {
-        $user->save();
-      } catch (\Exception $e) {
+      if (empty($user)) {
         return NULL;
       }
 
       if ($club = $this->getClub($data['club_id'], $sink)) {
         $this->checkRelation('club_member', $user, $club);
+      }
+
+      try {
+        $user->activate();
+        $user->save();
+      } catch (\Exception $e) {
+        return NULL;
       }
 
       return $user;
@@ -223,30 +232,26 @@ final class MafGame extends OsyTournamentParserPluginBase implements ContainerFa
   }
 
   protected function checkRelation($type, EntityInterface $source, EntityInterface $target) {
-    $rels = $this->entityTypeManager->getStorage('stated_entity_reference')->loadByProperties([
-      'type' => $type,
-      'source_entity_id__target_id' => $source->id(),
-      'source_entity_id__target_type' => $source->getEntityTypeId(),
-      'target_entity_id__target_id' => $target->id(),
-      'target_entity_id__target_type' => $target->getEntityTypeId(),
-    ]);
+    $rels = [];
+    if (!empty($source->id())) {
+      $rels = $this->entityTypeManager->getStorage('stated_entity_reference')->loadByProperties([
+        'type' => $type,
+        'source_entity_id__target_id' => $source->id(),
+        'source_entity_id__target_type' => $source->getEntityTypeId(),
+        'target_entity_id__target_id' => $target->id(),
+        'target_entity_id__target_type' => $target->getEntityTypeId(),
+      ]);
+    }
 
     if (empty($rels)) {
-      $rel = StatedEntityReference::create([
-        'type' => $type,
+      $this->entityTypeManager->getStorage('stated_entity_reference')->establishReference(
+        $type,
+        $source,
+        $target, [
         'field_parser_source' => $this->getKeyPrefix(),
-        'source_entity_id' => $source,
-        'target_entity_id' => $target,
         'state' => 'active',
       ]);
-
-      try {
-        $rel->save();
-      } catch (\Exception $e) {
-        return NULL;
-      }
-
-      return $rel;
+      return;
     }
 
     $rel = reset($rels);
@@ -264,8 +269,26 @@ final class MafGame extends OsyTournamentParserPluginBase implements ContainerFa
       $remove_rels = $this->entityTypeManager->getStorage('stated_entity_reference')->loadMultiple($remove_rels_ids);
       $this->entityTypeManager->getStorage('stated_entity_reference')->delete($remove_rels);
     }
+  }
 
-    return $rel;
+  protected function getFederation() {
+    global $FEDERATIONS;
+    $key = $this->getKeyPrefix();
+
+    if (empty($FEDERATIONS[$key])) {
+      if (empty(
+        $federations = $this->entityTypeManager->getStorage('node')->loadByProperties([
+          'type' => 'federation',
+          'field_original_reference_id' => $key,
+        ])
+      )) {
+        return NULL;
+      }
+
+      $FEDERATIONS[$key] = reset($federations);
+    }
+
+    return $FEDERATIONS[$key];
   }
 
   protected function getClub($id, $sink) {

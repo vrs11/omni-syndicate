@@ -211,35 +211,32 @@ function stated_entity_reference_form_alter(&$form, FormStateInterface $form_sta
  * Implements hook_entity_view().
  */
 function stated_entity_reference_entity_view(array &$build, EntityInterface $entity, EntityViewDisplayInterface $display, $view_mode) {
-  $type = $entity->getEntityTypeId();
-  $bundle = $entity->bundle();
+  \Drupal::service('stated_entity_reference.manager')->processEntity($build, $entity, $display, $view_mode);
+}
 
-  $ref_types = \Drupal::entityTypeManager()->getStorage('stated_entity_reference_type')->loadByProperties([
-    'source_bundle' => "{$type}:{$bundle}",
-  ]);
-  if (empty($ref_types)) {
+function stated_entity_reference_entity_delete(EntityInterface $entity) {
+  \Drupal::service('stated_entity_reference.manager')->onEntityDelete($entity);
+}
+
+function stated_entity_reference_entity_insert(EntityInterface $entity) {
+  stated_entity_reference_entity_update($entity);
+}
+
+
+function stated_entity_reference_entity_update(EntityInterface $entity) {
+  if (empty($data = $entity->_stated_entity_reference_storage)) {
     return;
   }
 
-  foreach ($ref_types as $ref_type) {
-    $refs = \Drupal::entityTypeManager()->getStorage('stated_entity_reference')->loadByProperties([
-      'type' => $ref_type->id(),
-      'source_entity_id__target_id' => $entity->id(),
-      'source_entity_id__target_type' => $entity->getEntityTypeId(),
-    ]);
-    $refs = array_filter($refs, fn($ref) => $ref->access('view'), ARRAY_FILTER_USE_BOTH);
-    if (empty($refs)) {
-      continue;
+  $base = [
+    'source_entity_id' => $entity,
+  ];
+  foreach ($data as $rel_data) {
+    $rel = StatedEntityReference::create(array_merge($base, $rel_data));
+    try {
+      $rel->save();
+    } catch (\Exception $e) {
+      // @TODO: add error message
     }
-
-    $key = $ref_type->id() . '_stated_entity_reference';
-    $build[$key] = [
-      '#type' => 'details',
-      '#title' => $ref_type->label(),
-      '#open' => TRUE,
-    ];
-
-    $reference_view_builder = \Drupal::entityTypeManager()->getViewBuilder('stated_entity_reference');
-    $build[$key]['refs'] = $reference_view_builder->viewMultiple($refs, 'entity_reference_source_page');
   }
 }

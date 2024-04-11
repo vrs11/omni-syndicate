@@ -1,0 +1,8 @@
+uuid: 44e16b53-239a-4d56-9fa5-a64ffaa7e5ed
+langcode: en
+status: true
+dependencies: {  }
+id: tournament_federation
+label: Federation
+source_bundle: 'node:tournament_regular'
+target_bundle: 'node:federation'

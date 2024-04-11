@@ -5,6 +5,12 @@ services:
       - '@element_info'
       - '@entity_type.manager'
 
+  stated_entity_reference.manager:
+    class: Drupal\stated_entity_reference\Manager
+    arguments:
+      - '@element_info'
+      - '@entity_type.manager'
+
   stated_entity_reference.workflow_state_change_subscriber:
     class: Drupal\stated_entity_reference\EventSubscriber\WorkflowStateChangeSubscriber
     tags:

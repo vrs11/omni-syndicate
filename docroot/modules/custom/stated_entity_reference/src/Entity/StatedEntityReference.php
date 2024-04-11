@@ -28,6 +28,7 @@ use Drupal\user\EntityOwnerTrait;
  *   ),
  *   bundle_label = @Translation("Stated entity reference type"),
  *   handlers = {
+ *     "storage" = "Drupal\stated_entity_reference\StatedEntityReferenceStorage",
  *     "list_builder" = "Drupal\stated_entity_reference\StatedEntityReferenceListBuilder",
  *     "views_data" = "Drupal\views\EntityViewsData",
  *     "access" = "Drupal\stated_entity_reference\StatedEntityReferenceAccessControlHandler",
@@ -71,7 +72,7 @@ class StatedEntityReference extends ContentEntityBase implements StatedEntityRef
    * {@inheritdoc}
    */
   public function label() {
-    return $this->getSourceEntity()->label() . " > " . $this->getTargetEntity()->label();
+    return $this->getSourceEntity()?->label() . " > " . $this->getTargetEntity()?->label();
   }
 
   /**
